@@ -1,45 +1,41 @@
-// import React, { useEffect } from 'react';
-// import { useRouter } from 'next/router';
-// import { useSelector } from 'react-redux';
-// import { fetchProducts } from '@/store/slices/productSlice';
-// import { RootState } from '@/store/store';
-// import { useDispatch } from '@/hooks';
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProductById } from "@/store/slices/productSlice";
+import { RootState } from "@/types/RootState";
+import { AppDispatch } from "@/store/store";
 
-// const ProductDetailsPage = () => {
-//   const router = useRouter();
-//   const { id } = router.query;
-//   const dispatch = useDispatch();
-//   const { items: products, status, error } = useSelector((state: RootState) => state.products);
+const ProductDetailsPage = () => {
+  const router = useRouter();
+  const id = Array.isArray(router.query.id)
+    ? router.query.id[0]
+    : router.query.id;
+  const dispatch = useDispatch<AppDispatch>();
 
-//   useEffect(() => {
-//     if (status === 'idle') {
-//       dispatch(fetchProducts());
-//     }
-//   }, [status, dispatch]);
+  const { currentProduct, status, error } = useSelector(
+    (state: RootState) => state.products
+  );
 
-//   // Find the product with the matching ID
-//   const product: Product | undefined = products.find((product) => product.id === id);
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchProductById(Number(id)));
+    }
+  }, [dispatch, id]);
 
-//   // If the product is not found or ID is undefined, handle accordingly
-//   if (status === 'loading') {
-//     return <div>Loading...</div>;
-//   }
+  return (
+    <div>
+      {status === "loading" && <div>Loading...</div>}
+      {status === "succeeded" && currentProduct && (
+        <div>
+          <h1>{currentProduct.name}</h1>
+          <p>{currentProduct.description}</p>
+          <p>{`Price: ${currentProduct.price}`}</p>
+          <p>{`Vendor: ${currentProduct.vendor}`}</p>
+        </div>
+      )}
+      {status === "failed" && <div>Error: {error}</div>}
+    </div>
+  );
+};
 
-//   if (status === 'failed') {
-//     return <div>Error: {error}</div>;
-//   }
-
-//   if (!product || !id) {
-//     return <div>Product not found</div>;
-//   }
-
-//   return (
-//     <div>
-//       <h1>{product.name}</h1>
-//       <p>{product.description}</p>
-//       <p>{product.price}</p>
-//     </div>
-//   );
-// };
-
-// export default ProductDetailsPage;
+export default ProductDetailsPage;

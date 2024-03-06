@@ -4,6 +4,7 @@ import { fetchProducts } from "@/store/slices/productSlice";
 import { RootState } from "@/store/store";
 import { useDispatch } from "@/hooks";
 import Link from "next/link";
+import { Product } from "@/types/product";
 
 const ProductsPage = () => {
   const dispatch = useDispatch();
