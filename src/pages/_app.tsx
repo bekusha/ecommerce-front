@@ -1,13 +1,13 @@
-import { Provider } from "react-redux";
-import { store } from "@/store/store"; // Make sure to import your Redux store
-
+import { AuthProvider } from "@/context/authContext";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Provider store={store}>
+    <AuthProvider>
+      {" "}
+      {/* Wrap your component tree with AuthProvider */}
       <Component {...pageProps} />
-    </Provider>
+    </AuthProvider>
   );
 }
