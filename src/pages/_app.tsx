@@ -1,13 +1,18 @@
 import { AuthProvider } from "@/context/authContext";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-
+import { ProductProvider } from "@/context/productContext";
+import Header from "@/components/header";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
-      {" "}
-      {/* Wrap your component tree with AuthProvider */}
-      <Component {...pageProps} />
+      <ProductProvider>
+        {" "}
+        {/* Wrap your component tree with AuthProvider */}
+        <Header>
+          <Component {...pageProps} />
+        </Header>
+      </ProductProvider>
     </AuthProvider>
   );
 }

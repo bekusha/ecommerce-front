@@ -8,3 +8,8 @@ export interface Product {
   price: number;
   createdAt: string;
 }
+
+export interface ProductContextType {
+  products: Product[];
+  fetchProducts: () => void;
+}
