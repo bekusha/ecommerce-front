@@ -6,7 +6,7 @@ import { ShoppingCartIcon } from "@heroicons/react/24/outline"; // Import icons
 import { useAuth } from "@/context/authContext";
 
 type HeaderProps = {
-  children: ReactNode; // Explicitly type the children prop
+  children: ReactNode;
 };
 
 const Header: React.FC<HeaderProps> = ({ children }) => {
@@ -19,8 +19,6 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
           {/* Logo and title */}
           <Link href="/">
             <div className="flex items-center">
-              {/* Consider replacing the SVG placeholder with an actual SVG or Image component */}
-
               <span className="text-xl font-semibold">Beka's Store</span>
             </div>
           </Link>

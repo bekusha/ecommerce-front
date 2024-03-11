@@ -71,7 +71,6 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({
   );
 };
 
-// A custom hook to use the product context
 export const useProducts = () => {
   const context = useContext(ProductContext);
   if (context === undefined) {

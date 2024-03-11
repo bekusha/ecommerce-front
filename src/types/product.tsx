@@ -24,5 +24,5 @@ export interface ProductContextType {
 export interface Category {
   id: number;
   name: string;
-  parent?: number | null; // Optional, can be null or missing if it's a top-level category
+  parent?: number | null;
 }
