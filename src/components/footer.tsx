@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-800 flex flex-col justify-center items-center text-center text-white p-4 fixed bottom-0 w-full">
+    <footer className="bg-gray-800 flex flex-col justify-center items-center text-center text-white p-4  bottom-0 w-full">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Column 1: About the company */}
 
