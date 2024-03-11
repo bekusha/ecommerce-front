@@ -28,9 +28,6 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
             <Link href="/">
               <div className="hover:text-gray-400">Home</div>
             </Link>
-            <Link href="/products">
-              <div className="hover:text-gray-400">Products</div>
-            </Link>
             <Link href="/about">
               <div className="hover:text-gray-400">About Us</div>
             </Link>
@@ -47,8 +44,8 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
                 </button>
               </div>
             ) : (
-              <Link href="/login">
-                <div className="hover:text-gray-400">Login</div>
+              <Link href="/auth">
+                <div className="hover:text-gray-400">Login/Register</div>
               </Link>
             )}
           </nav>
@@ -80,11 +77,6 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
             </li>
             <li className="md:ml-8 text-xl md:my-0 my-7">
               <a href="#" className="text-white hover:text-gray-400">
-                Products
-              </a>
-            </li>
-            <li className="md:ml-8 text-xl md:my-0 my-7">
-              <a href="#" className="text-white hover:text-gray-400">
                 About
               </a>
             </li>
@@ -110,7 +102,9 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
               </div>
             ) : (
               <Link href="/login">
-                <div className="md:ml-8 text-xl md:my-0 my-7">Login</div>
+                <div className="md:ml-8 text-xl md:my-0 my-7">
+                  Login/Register
+                </div>
               </Link>
             )}
             {/* Add more navigation items here */}

@@ -12,7 +12,7 @@ export default function Login() {
 
   useEffect(() => {
     if (auth?.user) {
-      router.push("/dashboard");
+      router.push("/");
     }
   }, [auth?.user, router]);
 
@@ -29,7 +29,7 @@ export default function Login() {
       const response = await auth?.login(username, password);
 
       if (response) {
-        router.push("/dashboard");
+        router.push("/");
       } else {
         setError("Failed to log in. Please check your credentials.");
       }
