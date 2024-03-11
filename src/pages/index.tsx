@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useProducts } from "@/context/productContext";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
@@ -8,16 +8,33 @@ const inter = Inter({ subsets: ["latin"] });
 
 const Home = () => {
   const { products, categories, fetchProductsByCategory } = useProducts();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleCategoryClick = (categoryId: number) => {
     fetchProductsByCategory(categoryId);
   };
+
+  const handleSearchChange = (event: any) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className={`container ${inter.className}`}>
       <header className="hero-banner">
         <h1>Welcome to Our Online Store</h1>
         <p>Find the best products at unbeatable prices.</p>
+        <div>
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+        </div>
       </header>
 
       <nav className="category-nav">
@@ -37,7 +54,7 @@ const Home = () => {
       <main>
         <section className="products">
           <div className="product-grid">
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <Link key={product.id} href={`/products/${product.id}`} passHref>
                 <div>
                   <ProductCard product={product} />
