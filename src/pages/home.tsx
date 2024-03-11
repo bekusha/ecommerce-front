@@ -3,7 +3,11 @@ import { useProducts } from "@/context/productContext";
 import ProductCard from "@/components/ProductCard";
 
 const Home = () => {
-  const { products } = useProducts();
+  const { products, categories, fetchProductsByCategory } = useProducts();
+
+  const handleCategoryClick = (categoryId: number) => {
+    fetchProductsByCategory(categoryId);
+  };
 
   return (
     <div className="container">
@@ -12,12 +16,26 @@ const Home = () => {
         <p>Find the best products at unbeatable prices.</p>
       </header>
 
+      <nav className="category-nav">
+        <h4>
+          <b>Filter products by categories</b>
+        </h4>
+        {categories.map((category) => (
+          <button
+            key={category.id}
+            onClick={() => handleCategoryClick(category.id)}
+            style={{ margin: "0 10px" }} // Basic styling, adjust as needed
+          >
+            {category.name}
+          </button>
+        ))}
+      </nav>
+
       <main>
         <section className="products">
           <div className="product-grid">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
-              // Make sure you pass the product as a prop here
             ))}
           </div>
         </section>
@@ -34,6 +52,10 @@ const Home = () => {
           text-align: center;
           margin-bottom: 50px;
         }
+        .category-nav {
+          text-align: center;
+          margin-bottom: 20px;
+        }
         .products {
           margin-bottom: 50px;
         }
@@ -41,10 +63,6 @@ const Home = () => {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
           gap: 20px;
-        }
-        .footer {
-          text-align: center;
-          margin-top: 50px;
         }
       `}</style>
     </div>
