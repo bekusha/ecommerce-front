@@ -26,6 +26,52 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
+  const deleteProduct = useCallback(async (productId: number) => {
+    const token = localStorage.getItem("access");
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}product/${productId}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setProducts((currentProducts) =>
+        currentProducts.filter((product) => product.id !== productId)
+      );
+      console.log("Product deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete product:", error);
+    }
+  }, []);
+
+  const editProduct = useCallback(
+    async (productId: number, formData: FormData) => {
+      const token = localStorage.getItem("access"); // Or wherever you store your token
+      try {
+        const response = await axios.put(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}product/${productId}/`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setProducts((currentProducts) =>
+          currentProducts.map((product) =>
+            product.id === productId ? response.data : product
+          )
+        );
+        console.log("Product edited successfully:", response.data);
+      } catch (error) {
+        console.error("Failed to edit product:", error);
+      }
+    },
+    []
+  );
+
   const addProduct = useCallback(async (formData: FormData) => {
     const token = localStorage.getItem("access"); // Or wherever you store your token
     try {
@@ -96,6 +142,8 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({
         categories,
         fetchProductsByCategory,
         fetchProducts,
+        editProduct,
+        deleteProduct,
       }}>
       {children}
     </ProductContext.Provider>

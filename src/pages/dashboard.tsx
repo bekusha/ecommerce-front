@@ -7,7 +7,7 @@ import ProductCard from "@/components/ProductCard";
 
 const Dashboard = () => {
   const auth = useAuth();
-  const { addProduct } = useProducts();
+  const { addProduct, editProduct, deleteProduct } = useProducts();
   const [myProducts, setMyProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -24,6 +24,23 @@ const Dashboard = () => {
         .catch((error) => console.error("Error fetching my products:", error));
     }
   }, [setMyProducts]);
+
+  const handleEdit = (productId: number) => {
+    console.log("Edit product", productId);
+  };
+
+  const handleDelete = async (productId: number) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      try {
+        await deleteProduct(productId);
+        setMyProducts(myProducts.filter((product) => product.id !== productId));
+        alert("Product deleted successfully.");
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        alert("Failed to delete product.");
+      }
+    }
+  };
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -64,7 +81,13 @@ const Dashboard = () => {
         <h1>My Products</h1>
         <div className="product-list">
           {myProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard
+              key={product.id}
+              isAdminView={true}
+              product={product}
+              onDelete={() => handleDelete(product.id)}
+              onEdit={() => handleEdit(product.id)} // You need to pass a proper implementation
+            />
           ))}
         </div>
       </div>

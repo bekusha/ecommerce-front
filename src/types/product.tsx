@@ -20,6 +20,8 @@ export interface ProductContextType {
   fetchProducts: () => Promise<void>;
   fetchProductsByCategory: (categoryId: number) => Promise<void>;
   addProduct: (productData: FormData) => Promise<void>;
+  editProduct: (productId: number, formData: FormData) => Promise<void>;
+  deleteProduct: (productId: number) => Promise<void>;
 }
 
 export interface Category {

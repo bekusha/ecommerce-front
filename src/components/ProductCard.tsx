@@ -3,11 +3,25 @@ import { Product } from "@/types/product";
 
 interface ProductCardProps {
   product: Product;
+  onEdit: () => void;
+  onDelete: () => void;
+  isAdminView?: boolean;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  onEdit,
+  onDelete,
+  isAdminView,
+}) => {
   return (
     <div className="product-card">
+      {isAdminView && (
+        <div className="admin-actions">
+          <button onClick={onEdit}>Edit</button>
+          <button onClick={onDelete}>Delete</button>
+        </div>
+      )}
       <div className="product-image">
         {/* Display the first image if it exists */}
         {product.image1 && (
@@ -22,10 +36,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <h3>{product.name}</h3>
         <p>{product.description}</p>
         <p>${product.price}</p>
-        {/* Add to Cart Button or other actions */}
       </div>
 
-      {/* Styles specific to this component */}
       <style jsx>{`
         .product-card {
           border: 1px solid #ccc;
