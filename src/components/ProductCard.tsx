@@ -1,5 +1,5 @@
 import React from "react";
-import { Product } from "@/types/product"; // Adjust the import path based on your file structure
+import { Product } from "@/types/product";
 
 interface ProductCardProps {
   product: Product;

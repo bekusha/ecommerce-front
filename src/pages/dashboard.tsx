@@ -1,13 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/authContext"; // Adjust import path as needed
 import { useProducts } from "@/context/productContext";
-import { NewProductData } from "@/types/product";
+import { NewProductData, Product } from "@/types/product";
+import axios from "axios";
+import ProductCard from "@/components/ProductCard";
 
 const Dashboard = () => {
   const auth = useAuth();
   const { addProduct } = useProducts();
+  const [myProducts, setMyProducts] = useState<Product[]>([]);
 
-  // Function to handle form submission
+  useEffect(() => {
+    const token = localStorage.getItem("access");
+
+    if (token) {
+      axios
+        .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}product/my/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          setMyProducts(response.data);
+        })
+        .catch((error) => console.error("Error fetching my products:", error));
+    }
+  }, [setMyProducts]);
+
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -43,6 +60,13 @@ const Dashboard = () => {
           <input name="image5" type="file" accept="image/*" />
           <button type="submit">Add Product</button>
         </form>
+
+        <h1>My Products</h1>
+        <div className="product-list">
+          {myProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
       </div>
     );
   } else {
