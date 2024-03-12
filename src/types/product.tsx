@@ -19,10 +19,23 @@ export interface ProductContextType {
   categories: Category[];
   fetchProducts: () => Promise<void>;
   fetchProductsByCategory: (categoryId: number) => Promise<void>;
+  addProduct: (productData: FormData) => Promise<void>;
 }
 
 export interface Category {
   id: number;
   name: string;
   parent?: number | null;
+}
+
+export interface NewProductData {
+  name: string;
+  description: string;
+  price: number;
+  // Include types for your images if they are being sent as part of the form data
+  image1?: File | null;
+  image2?: File | null;
+  image3?: File | null;
+  image4?: File | null;
+  image5?: File | null;
 }

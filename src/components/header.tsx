@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline"; // Import icons
 import { useAuth } from "@/context/authContext";
-
+import { Role } from "@/types/user";
 type HeaderProps = {
   children: ReactNode;
 };
@@ -32,17 +32,27 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
               <div className="hover:text-gray-400">About Us</div>
             </Link>
             {user ? (
-              <div className="flex items-center">
-                {/* Only show the shopping cart icon if the user is logged in */}
-                <Link href="/cart">
-                  <div className="hidden md:block">
-                    <ShoppingCartIcon className="h-6 w-6" />
-                  </div>
-                </Link>
-                <button onClick={logout} className="ml-4">
-                  Logout
-                </button>
-              </div>
+              <>
+                <div className="flex items-center">
+                  {/* Only show the shopping cart icon if the user is logged in */}
+                  <Link href="/cart">
+                    <div className="hidden md:block">
+                      <ShoppingCartIcon className="h-6 w-6" />
+                    </div>
+                  </Link>
+                  <button onClick={logout} className="ml-4">
+                    Logout
+                  </button>
+                  {/* Dashboard link for vendors */}
+                  {user.role === Role.VENDOR ? (
+                    <Link href="/dashboard">
+                      <div className="hover:text-gray-400 ml-4">Dashboard</div>
+                    </Link>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </>
             ) : (
               <Link href="/auth">
                 <div className="hover:text-gray-400">Login/Register</div>
