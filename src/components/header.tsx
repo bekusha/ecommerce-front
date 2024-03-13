@@ -33,25 +33,25 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
             </Link>
             {user ? (
               <>
-                <div className="flex items-center">
-                  {/* Only show the shopping cart icon if the user is logged in */}
+                {/* Cart icon for consumers */}
+                {user.role === Role.CONSUMER && (
                   <Link href="/cart">
-                    <div className="hidden md:block">
+                    <div className="hidden md:flex items-center hover:text-gray-400">
                       <ShoppingCartIcon className="h-6 w-6" />
                     </div>
                   </Link>
-                  <button onClick={logout} className="ml-4">
-                    Logout
-                  </button>
-                  {/* Dashboard link for vendors */}
-                  {user.role === Role.VENDOR ? (
-                    <Link href="/dashboard">
-                      <div className="hover:text-gray-400 ml-4">Dashboard</div>
-                    </Link>
-                  ) : (
-                    ""
-                  )}
-                </div>
+                )}
+
+                {user.role === Role.VENDOR && (
+                  <Link href="/dashboard">
+                    <div className="hover:text-gray-400 ml-4">Dashboard</div>
+                  </Link>
+                )}
+                <button onClick={logout} className="ml-4">
+                  Logout
+                </button>
+
+                {/* Dashboard link for vendors */}
               </>
             ) : (
               <Link href="/auth">
@@ -77,18 +77,19 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
             </svg>
           </button>
           <ul
+            onClick={() => setIsMenuOpen(false)}
             className={`md:hidden flex flex-col justify-center items-center absolute bg-gray-800 z-20 left-0 w-full transition-all duration-500 ease-in ${
               isMenuOpen ? "top-16 h-auto" : "top-[-490px] h-0"
             }`}>
             <li className="md:ml-8 text-xl md:my-0 my-7">
-              <a href="#" className="text-white hover:text-gray-400">
-                Home
-              </a>
+              <Link href="/">
+                <div className="hover:text-gray-400">Home</div>
+              </Link>
             </li>
             <li className="md:ml-8 text-xl md:my-0 my-7">
-              <a href="#" className="text-white hover:text-gray-400">
-                About
-              </a>
+              <Link href="/about">
+                <div className="hover:text-gray-400">About Us</div>
+              </Link>
             </li>
             <li className="md:ml-8 text-xl md:my-0 my-7">
               <a href="#" className="text-white hover:text-gray-400">
@@ -96,32 +97,44 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
               </a>
             </li>
             {user ? (
-              <div className="">
-                {/* Only show the shopping cart icon if the user is logged in */}
+              <>
+                {/* Cart icon for consumers */}
+                {user.role === Role.CONSUMER && (
+                  <li className="md:ml-8 text-xl md:my-0 my-7">
+                    <Link href="/cart">
+                      <div className="hidden md:flex items-center hover:text-gray-400">
+                        <ShoppingCartIcon className="h-6 w-6" />
+                      </div>
+                    </Link>
+                  </li>
+                )}
 
-                <div className="md:block flex justify-center">
-                  {" "}
-                  <ShoppingCartIcon className="h-6 w-6" />
-                </div>
+                {user.role === Role.VENDOR && (
+                  <li className="md:ml-8 text-xl md:my-0 my-7">
+                    <Link href="/dashboard">
+                      <div className="hover:text-gray-400 ml-4">Dashboard</div>
+                    </Link>
+                  </li>
+                )}
+                <li className="md:ml-8 text-xl md:my-0 my-7">
+                  <button onClick={logout} className="ml-4">
+                    Logout
+                  </button>
+                </li>
 
-                <button
-                  onClick={logout}
-                  className="md:ml-8 text-xl md:my-0 my-7">
-                  Logout
-                </button>
-              </div>
+                {/* Dashboard link for vendors */}
+              </>
             ) : (
-              <Link href="/login">
-                <div className="md:ml-8 text-xl md:my-0 my-7">
-                  Login/Register
-                </div>
-              </Link>
+              <li className="md:ml-8 text-xl md:my-0 my-7">
+                <Link href="/auth">
+                  <div className="hover:text-gray-400">Login/Register</div>
+                </Link>
+              </li>
             )}
-            {/* Add more navigation items here */}
           </ul>
         </div>
       </header>
-      {/* Render children below the header */}
+
       <main>{children}</main>
     </>
   );
