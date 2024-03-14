@@ -1,17 +1,23 @@
 // Import React and any other necessary libraries
-import React, { ReactNode, useState } from "react"; // Include ReactNode for typing the children
-import Image from "next/image";
+import React, { ReactNode, useRef, useState } from "react"; // Include ReactNode for typing the children
 import Link from "next/link";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline"; // Import icons
 import { useAuth } from "@/context/authContext";
 import { Role } from "@/types/user";
+import CartComponent from "./CartComponent";
+
 type HeaderProps = {
   children: ReactNode;
 };
 
 const Header: React.FC<HeaderProps> = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const { user, logout, loading } = useAuth()!;
+  const cartRef = useRef(null);
+
+  const toggleCart = () => setIsCartOpen(!isCartOpen);
+  const closeCart = () => setIsCartOpen(false);
   return (
     <>
       <header className="bg-gray-800 text-white p-4">
@@ -35,11 +41,11 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
               <>
                 {/* Cart icon for consumers */}
                 {user.role === Role.CONSUMER && (
-                  <Link href="/cart">
-                    <div className="hidden md:flex items-center hover:text-gray-400">
-                      <ShoppingCartIcon className="h-6 w-6" />
-                    </div>
-                  </Link>
+                  <button
+                    onClick={toggleCart}
+                    className="md:flex items-center hover:text-gray-400">
+                    <ShoppingCartIcon className="h-6 w-6" />
+                  </button>
                 )}
 
                 {user.role === Role.VENDOR && (
@@ -50,8 +56,6 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
                 <button onClick={logout} className="ml-4">
                   Logout
                 </button>
-
-                {/* Dashboard link for vendors */}
               </>
             ) : (
               <Link href="/auth">
@@ -101,11 +105,11 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
                 {/* Cart icon for consumers */}
                 {user.role === Role.CONSUMER && (
                   <li className="md:ml-8 text-xl md:my-0 my-7">
-                    <Link href="/cart">
-                      <div className="hidden md:flex items-center hover:text-gray-400">
-                        <ShoppingCartIcon className="h-6 w-6" />
-                      </div>
-                    </Link>
+                    <button
+                      onClick={toggleCart}
+                      className="md:flex items-center hover:text-gray-400">
+                      <ShoppingCartIcon className="h-6 w-6" />
+                    </button>
                   </li>
                 )}
 
@@ -134,7 +138,8 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
           </ul>
         </div>
       </header>
-
+      {/* Conditionally render CartComponent based on isCartOpen */}
+      {isCartOpen && <CartComponent onClose={closeCart} />}
       <main>{children}</main>
     </>
   );

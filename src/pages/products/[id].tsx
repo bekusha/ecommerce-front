@@ -1,6 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { Product } from "@/types/product";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -8,12 +8,24 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
+import { useCart } from "@/context/cartContext";
 
 interface ProductDetailProps {
   product: Product;
 }
 
 const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
+  const { addToCart } = useCart();
+  const [quantity, setQuantity] = useState(1);
+
+  const handleAddToCart = async () => {
+    await addToCart(product, quantity);
+  };
+
+  const handleQuantityChange = (change: number) => {
+    setQuantity((prevQuantity) => Math.max(1, prevQuantity + change));
+  };
+
   const images = [
     product.image1,
     product.image2,
@@ -54,10 +66,16 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
           </SwiperSlide>
         ))}
       </Swiper>
+
       <div>{product.name}</div>
       <div>{product.description}</div>
       <div>{product.price} $</div>
-      <button>Add To Cart</button>
+      <button onClick={handleAddToCart}>Add To Cart</button>
+      <div className="flex items-center">
+        <button onClick={() => handleQuantityChange(-1)}>-</button>
+        <span className="mx-2">{quantity}</span>
+        <button onClick={() => handleQuantityChange(1)}>+</button>
+      </div>
     </div>
   );
 };
