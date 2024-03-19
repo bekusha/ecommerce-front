@@ -39,7 +39,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
   }
 
   return (
-    <div className="product-detail">
+    <div className="product-detail justify-center align-center text-center h-screen">
       <Swiper
         spaceBetween={50}
         slidesPerView={1}
@@ -50,6 +50,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
           <SwiperSlide key={index}>
             {image && (
               <div
+                className="mt-20 mb-20"
                 style={{
                   position: "relative",
                   width: "100%",
@@ -69,26 +70,32 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
         ))}
       </Swiper>
 
-      <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
-      <p className="text-gray-700 mb-4">{product.description}</p>
+      <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-10 md:text-center mt-10">
+        {product.name}
+      </h1>
+      <p className="text-gray-700 mb-4 text-lg md:text-xl lg:text-2xl text-center max-w-[30rem] mx-auto">
+        {product.description}
+      </p>
       <p className="text-xl font-semibold mb-4">{product.price * quantity} $</p>
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex gap-2 mb-4 md:flex-row items-center justify-center">
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded min-w-[20] max-w-[10rem] text-lg md:text-xl "
           onClick={handleAddToCart}>
           Add To Cart
         </button>
-        <button
-          className="text-gray-700 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded"
-          onClick={() => handleQuantityChange(-1)}>
-          -
-        </button>
-        <span>{quantity}</span>
-        <button
-          className="text-gray-700 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded"
-          onClick={() => handleQuantityChange(1)}>
-          +
-        </button>
+        <div className="flex items-center">
+          <button
+            className="text-gray-700 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded"
+            onClick={() => handleQuantityChange(-1)}>
+            -
+          </button>
+          <span className="mx-2">{quantity}</span>
+          <button
+            className="text-gray-700 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded"
+            onClick={() => handleQuantityChange(1)}>
+            +
+          </button>
+        </div>
       </div>
     </div>
   );

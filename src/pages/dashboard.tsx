@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "@/context/authContext"; // Adjust import path as needed
+import { useAuth } from "@/context/authContext";
 import { useProducts } from "@/context/productContext";
 import { NewProductData, Product } from "@/types/product";
 import axios from "axios";
@@ -60,26 +60,48 @@ const Dashboard = () => {
 
   if (auth && auth.user) {
     return (
-      <div>
-        <p>Welcome, {auth.user.username}</p>
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
-          <input name="name" type="text" placeholder="Product Name" required />
+      <div className="container mx-auto px-4 py-8">
+        <p className="text-center text-xl mb-4">
+          Welcome, {auth.user.username}
+        </p>
+        <form
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+          className="mb-8">
+          <input
+            name="name"
+            type="text"
+            placeholder="Product Name"
+            required
+            className="block w-full mb-4 p-2 border border-gray-300 rounded"
+          />
           <textarea
             name="description"
             placeholder="Product Description"
             required
+            className="block w-full mb-4 p-2 border border-gray-300 rounded"
           />
-          <input name="price" type="number" placeholder="Price" required />
-          <input name="image1" type="file" accept="image/*" />
-          <input name="image2" type="file" accept="image/*" />
-          <input name="image3" type="file" accept="image/*" />
-          <input name="image4" type="file" accept="image/*" />
-          <input name="image5" type="file" accept="image/*" />
-          <button type="submit">Add Product</button>
+          <input
+            name="price"
+            type="number"
+            placeholder="Price"
+            required
+            className="block w-full mb-4 p-2 border border-gray-300 rounded"
+          />
+          <input name="image1" type="file" accept="image/*" className="mb-4" />
+          <input name="image2" type="file" accept="image/*" className="mb-4" />
+          <input name="image3" type="file" accept="image/*" className="mb-4" />
+          <input name="image4" type="file" accept="image/*" className="mb-4" />
+          <input name="image5" type="file" accept="image/*" className="mb-4" />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white py-2 px-4 rounded">
+            Add Product
+          </button>
         </form>
 
-        <h1>My Products</h1>
-        <div className="product-list">
+        <h1 className="text-xl font-bold mb-4">My Products</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {myProducts.map((product) => (
             <ProductCard
               key={product.id}
@@ -93,7 +115,11 @@ const Dashboard = () => {
       </div>
     );
   } else {
-    return <p>Please log in to access the dashboard.</p>;
+    return (
+      <p className="text-center text-xl">
+        Please log in to access the dashboard.
+      </p>
+    );
   }
 };
 

@@ -24,7 +24,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const truncatedDescription = truncateText(product.description, 100);
 
   return (
-    <div className="flex flex-col  border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out">
+    <div className="flex flex-col  border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out justify-center items-center text-center">
       {isAdminView && (
         <div className="flex justify-between items-center p-4 bg-gray-100 border-b">
           <button
