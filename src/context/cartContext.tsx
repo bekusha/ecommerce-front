@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { Product } from "@/types/product";
 import { Cart, CartItem } from "@/types/cart";
+import Router from "next/router";
 
 interface CartContextType {
   cart: Cart | null;
@@ -9,6 +10,7 @@ interface CartContextType {
   addToCart: (product: Product, quantity: number) => Promise<void>;
   removeFromCart: (productId: number) => Promise<void>;
   updateCartItem: (productId: number, quantity: number) => Promise<void>;
+  processPayment: () => Promise<void>;
 }
 
 const CartContext = createContext<CartContextType>({
@@ -19,6 +21,10 @@ const CartContext = createContext<CartContextType>({
     /* no-op */
   },
   updateCartItem: async () => {},
+  processPayment: async () => {
+    // Add this line
+    /* no-op */
+  },
 });
 
 export function useCart() {
@@ -75,6 +81,33 @@ export const CartProvider = ({ children }: any) => {
 
     fetchCart();
   }, []);
+
+  // Inside your CartProvider component, add a new function
+
+  const processPayment = async () => {
+    setLoading(true);
+    const token = getToken();
+
+    try {
+      // Assuming your backend expects the cart details in this format
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}payment/checkout/`,
+        { cart },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      // PayPal approval URL received from the backend
+      const approvalUrl = response.data.approval_url;
+
+      // Redirect user to PayPal to approve the payment
+      window.location.href = approvalUrl;
+    } catch (error) {
+      console.error("Failed to process payment:", error);
+      // Handle the error appropriately
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const updateCartItem = async (cartItemId: number, quantity: number) => {
     setLoading(true);
@@ -249,6 +282,7 @@ export const CartProvider = ({ children }: any) => {
     addToCart,
     removeFromCart,
     updateCartItem,
+    processPayment,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
