@@ -57,56 +57,70 @@ const Register = () => {
   };
 
   return (
-    <form onSubmit={(e) => onSubmit(e)}>
-      <div>
-        <input
-          type="text"
-          placeholder="Username"
-          name="username"
-          value={username}
-          onChange={(e) => onChange(e)}
-          required
-        />
-      </div>
-      <div>
-        <input
-          type="email"
-          placeholder="Email"
-          name="email"
-          value={email}
-          onChange={(e) => onChange(e)}
-          required
-        />
-      </div>
-      <div>
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          value={password}
-          onChange={(e) => onChange(e)}
-          minLength={6}
-        />
-      </div>
-      <div>
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          name="password2"
-          value={password2}
-          onChange={(e) => onChange(e)}
-          minLength={6}
-        />
-      </div>
-      <div>
-        <select name="role" value={role} onChange={(e) => onChange(e)}>
-          <option value="CONSUMER">Consumer</option>
-          <option value="VENDOR">Vendor</option>
-          {/* <option value="ADMIN">Admin</option> */}
-        </select>
-      </div>
-      <button type="submit">Register</button>
-    </form>
+    <div className="flex items-center justify-center h-[80vh] bg-gray-100">
+      <form onSubmit={onSubmit} className="p-6 bg-white rounded shadow-md">
+        <h2 className="text-lg font-semibold mb-4">Register</h2>
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Username"
+            name="username"
+            value={username}
+            onChange={onChange}
+            required
+            className="w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:border-indigo-500"
+          />
+        </div>
+        <div className="mb-4">
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            value={email}
+            onChange={onChange}
+            required
+            className="w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:border-indigo-500"
+          />
+        </div>
+        <div className="mb-4">
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={password}
+            onChange={onChange}
+            minLength={6}
+            className="w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:border-indigo-500"
+          />
+        </div>
+        <div className="mb-4">
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            name="password2"
+            value={password2}
+            onChange={onChange}
+            minLength={6}
+            className="w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:border-indigo-500"
+          />
+        </div>
+        <div className="mb-4">
+          <select
+            name="role"
+            value={role}
+            onChange={onChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:border-indigo-500">
+            <option value="CONSUMER">Consumer</option>
+            <option value="VENDOR">Vendor</option>
+          </select>
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Register
+        </button>
+      </form>
+    </div>
   );
 };
 

@@ -58,8 +58,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
                 <Image
                   src={image}
                   alt={`Image ${index + 1}`}
-                  layout="fill"
-                  objectFit="contain"
+                  fill
+                  style={{
+                    objectFit: "contain",
+                  }}
                 />
               </div>
             )}
@@ -67,14 +69,26 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
         ))}
       </Swiper>
 
-      <div>{product.name}</div>
-      <div>{product.description}</div>
-      <div>{product.price} $</div>
-      <button onClick={handleAddToCart}>Add To Cart</button>
-      <div className="flex items-center">
-        <button onClick={() => handleQuantityChange(-1)}>-</button>
-        <span className="mx-2">{quantity}</span>
-        <button onClick={() => handleQuantityChange(1)}>+</button>
+      <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
+      <p className="text-gray-700 mb-4">{product.description}</p>
+      <p className="text-xl font-semibold mb-4">{product.price * quantity} $</p>
+      <div className="flex items-center gap-2 mb-4">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={handleAddToCart}>
+          Add To Cart
+        </button>
+        <button
+          className="text-gray-700 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded"
+          onClick={() => handleQuantityChange(-1)}>
+          -
+        </button>
+        <span>{quantity}</span>
+        <button
+          className="text-gray-700 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded"
+          onClick={() => handleQuantityChange(1)}>
+          +
+        </button>
       </div>
     </div>
   );

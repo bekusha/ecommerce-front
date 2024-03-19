@@ -40,29 +40,49 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
+    <div className="flex items-center justify-center h-[80vh] bg-gray-100">
+      <form
+        onSubmit={handleSubmit}
+        className="p-6 bg-white rounded-lg shadow space-y-6 max-w-md w-full">
+        <h2 className="text-3xl font-bold text-center text-gray-900">Login</h2>
+        {error && <p className="text-red-500 text-center">{error}</p>}
         <div>
-          <label htmlFor="username">Username</label>
+          <label
+            htmlFor="username"
+            className="block text-sm font-medium text-gray-700">
+            Username
+          </label>
           <input
             id="username"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+            placeholder="Your username"
+            required
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700">
+            Password
+          </label>
           <input
             id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+            placeholder="Your password"
+            required
           />
         </div>
-        <button type="submit">Login</button>
+        <button
+          type="submit"
+          className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Login
+        </button>
       </form>
     </div>
   );

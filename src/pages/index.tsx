@@ -23,71 +23,60 @@ const Home = () => {
   );
 
   return (
-    <div className={`container ${inter.className}`}>
-      <header className="hero-banner">
-        <h1>Welcome to Our Online Store</h1>
-        <p>Find the best products at unbeatable prices.</p>
-        <div>
+    <div className={`container mx-auto px-5 ${inter.className}`}>
+      <header className="text-center mb-12 p-10 bg-gray-50 rounded-lg shadow-md">
+        <h1 className="text-4xl font-bold text-gray-800">
+          Welcome to Our Online Store
+        </h1>
+        <p className="text-gray-600 text-lg mt-4">
+          Find the best products at unbeatable prices.
+        </p>
+        <div className="mt-8">
           <input
             type="text"
             placeholder="Search products..."
             value={searchTerm}
             onChange={handleSearchChange}
+            className="px-4 py-2 border border-gray-300 rounded-full w-full shadow-inner"
           />
         </div>
       </header>
 
-      <nav className="category-nav">
-        <h4>
+      <nav className="text-center mb-5">
+        <h4 className="font-bold">
           <b>Filter products by categories:</b>
         </h4>
         {categories.map((category) => (
           <button
             key={category.id}
             onClick={() => handleCategoryClick(category.id)}
-            style={{ margin: "0 10px" }}>
+            className="m-2 bg-white border border-gray-200 px-4 py-2 rounded-full cursor-pointer hover:bg-gray-100 shadow transition duration-300 ease-in-out">
             {category.name}
           </button>
         ))}
       </nav>
 
       <main>
-        <section className="products">
-          <div className="product-grid">
+        <section className="mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {filteredProducts.map((product) => (
               <Link key={product.id} href={`/products/${product.id}`} passHref>
                 <div>
-                  <ProductCard product={product} />
+                  <ProductCard
+                    product={product}
+                    onEdit={function (): void {
+                      throw new Error("Function not implemented.");
+                    }}
+                    onDelete={function (): void {
+                      throw new Error("Function not implemented.");
+                    }}
+                  />
                 </div>
               </Link>
             ))}
           </div>
         </section>
       </main>
-
-      <style jsx>{`
-        .container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 20px;
-        }
-        .hero-banner {
-          text-align: center;
-          margin-bottom: 50px;
-        }
-        .category-nav {
-          text-align: center;
-          margin-bottom: 20px;
-        }
-        .products {
-          margin-bottom: 50px;
-        }
-        .product-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-          gap: 20px;
-        }
-      `}</style>
     </div>
   );
 };

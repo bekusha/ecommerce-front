@@ -6,7 +6,7 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 const CartComponent = ({ onClose }: { onClose: () => void }) => {
   const { cart, removeFromCart, updateCartItem } = useCart();
-  const [isCheckingOut, setIsCheckingOut] = useState(false); // State to control the checkout view
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   const handleQuantityChange = (productId: number, change: number) => {
     const item = cart?.items.find((item) => item.id === productId);
@@ -20,17 +20,16 @@ const CartComponent = ({ onClose }: { onClose: () => void }) => {
     }
   };
 
-  // Render only the Checkout component when isCheckingOut is true
   if (isCheckingOut) {
     return (
       <PayPalScriptProvider
         options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "" }}>
         <div className="fixed inset-0 z-50 overflow-auto bg-smoke-light flex">
-          <div className="relative p-8 bg-white w-full max-w-md m-auto flex-col flex rounded-lg">
+          <div className="relative p-8 bg-white w-full max-w-md m-auto flex-col flex rounded-lg shadow-lg">
             <Checkout />
             <button
               onClick={() => setIsCheckingOut(false)}
-              className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+              className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition ease-in-out duration-150">
               Cancel
             </button>
           </div>
@@ -39,10 +38,11 @@ const CartComponent = ({ onClose }: { onClose: () => void }) => {
     );
   }
 
-  // Else, render the cart view
   return (
     <div className="absolute right-0 mt-2 w-72 bg-white shadow-xl rounded-lg p-4 z-50">
-      <button onClick={onClose} className="absolute top-2 right-2">
+      <button
+        onClick={onClose}
+        className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 transition ease-in-out duration-150">
         Close
       </button>
       {cart && cart.items.length > 0 ? (
@@ -59,19 +59,19 @@ const CartComponent = ({ onClose }: { onClose: () => void }) => {
               />
               <button
                 onClick={() => handleQuantityChange(item.id, -1)}
-                className="bg-gray-200 hover:bg-gray-400 text-black font-bold py-1 px-2 rounded">
+                className="bg-gray-200 hover:bg-gray-300 text-black font-bold py-1 px-2 rounded ml-2 transition ease-in-out duration-150">
                 -
               </button>
               <span className="mx-2">Qty: {item.quantity}</span>
               <button
                 onClick={() => handleQuantityChange(item.id, 1)}
-                className="bg-gray-200 hover:bg-gray-400 text-black font-bold py-1 px-2 rounded">
+                className="bg-gray-200 hover:bg-gray-300 text-black font-bold py-1 px-2 rounded transition ease-in-out duration-150">
                 +
               </button>
             </div>
             <button
               onClick={() => removeFromCart(item.id)}
-              className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+              className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded transition ease-in-out duration-150">
               X
             </button>
           </div>
@@ -85,8 +85,8 @@ const CartComponent = ({ onClose }: { onClose: () => void }) => {
         <strong>Total Price:</strong> ${cart?.totalPrice || 0}
       </div>
       <button
-        onClick={() => setIsCheckingOut(true)} // Trigger checkout view
-        className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        onClick={() => setIsCheckingOut(true)}
+        className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition ease-in-out duration-150">
         Purchase
       </button>
     </div>

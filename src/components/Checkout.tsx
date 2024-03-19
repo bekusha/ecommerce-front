@@ -4,7 +4,7 @@ import { useCart } from "@/context/cartContext";
 import axios from "axios";
 
 const Checkout = () => {
-  const { cart } = useCart(); // Use the cart context
+  const { cart } = useCart();
 
   const createOrder = (data: any, actions: any) => {
     return actions.order.create({
@@ -13,11 +13,11 @@ const Checkout = () => {
           description: "Your Cart Items",
           amount: {
             currency_code: "USD",
-            value: cart!.totalPrice, // Use the total price from your cart context
+            value: cart!.totalPrice,
             breakdown: {
               item_total: {
                 currency_code: "USD",
-                value: cart!.totalPrice, // This should match the total value
+                value: cart!.totalPrice,
               },
             },
           },
@@ -25,9 +25,9 @@ const Checkout = () => {
             name: item.product.name,
             unit_amount: {
               currency_code: "USD",
-              value: item.product.price, // Price of a single item
+              value: item.product.price,
             },
-            quantity: item.quantity.toString(), // Quantity as a string
+            quantity: item.quantity.toString(),
           })),
         },
       ],
@@ -84,8 +84,8 @@ const Checkout = () => {
           <li key={index}>
             <div>
               <h3>{item.product.name}</h3>
-              <p>{item.product.description}</p>
-              <p>Quantity: {item.quantity}</p>
+              {/* <p>{item.product.description}</p> */}
+              <p> Quantity:{item.quantity}</p>
               <p>Price per item: ${item.product.price}</p>
               <p>Subtotal: ${item.product.price * item.quantity}</p>
             </div>
