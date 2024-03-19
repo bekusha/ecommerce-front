@@ -37,6 +37,9 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
             <Link href="/about">
               <div className="hover:text-gray-400">About Us</div>
             </Link>
+            <Link href="/contact">
+              <div className="hover:text-gray-400">Contact</div>
+            </Link>
             {user ? (
               <>
                 {/* Cart icon for consumers */}
@@ -96,9 +99,9 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
               </Link>
             </li>
             <li className="md:ml-8 text-xl md:my-0 my-7">
-              <a href="#" className="text-white hover:text-gray-400">
-                Contact
-              </a>
+              <Link href="/contact">
+                <div className="hover:text-gray-400">Contact</div>
+              </Link>
             </li>
             {user ? (
               <>
