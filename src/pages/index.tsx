@@ -67,17 +67,19 @@ const Home = () => {
 
       <main>
         <section className="mb-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 items-stretch">
             {filteredProducts.map((product) => (
               <Link key={product.id} href={`/products/${product.id}`} passHref>
-                <div>
+                <div className="flex flex-col">
+                  {" "}
+                  {/* Adjust this wrapper to ensure it’s flex and fills the height */}
                   <ProductCard
                     product={product}
-                    onEdit={function (): void {
-                      throw new Error("Function not implemented.");
+                    onEdit={() => {
+                      /* Edit function */
                     }}
-                    onDelete={function (): void {
-                      throw new Error("Function not implemented.");
+                    onDelete={() => {
+                      /* Delete function */
                     }}
                   />
                 </div>

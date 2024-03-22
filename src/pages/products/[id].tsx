@@ -25,6 +25,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
   const [quantity, setQuantity] = useState(1);
 
   const handleAddToCart = async () => {
+    if (product.quantity === 0) {
+      alert("This product is out of stock.");
+      return; // Prevent further execution
+    }
     await addToCart(product, quantity);
   };
 
@@ -94,6 +98,15 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
       <p className="text-gray-700 mb-4 text-lg md:text-xl lg:text-2xl text-center max-w-[30rem] mx-auto">
         {product.description}
       </p>
+      <p
+        className={`text-xl font-semibold mb-4 ${
+          product.quantity! > 0 ? "text-green-600" : "text-red-600"
+        }`}>
+        {product.quantity! > 0
+          ? `In Stock: ${product.quantity!} available`
+          : "Out of Stock"}
+      </p>
+
       <p className="text-xl font-semibold mb-4">{product.price * quantity} $</p>
       <p
         onClick={handleVendorClick}
@@ -102,10 +115,14 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
       </p>
       <div className="flex gap-2 mb-4 md:flex-row items-center justify-center">
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded min-w-[20] max-w-[10rem] text-lg md:text-xl "
-          onClick={handleAddToCart}>
+          disabled={product.quantity === 0}
+          onClick={handleAddToCart}
+          className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded min-w-[20] max-w-[10rem] text-lg md:text-xl ${
+            product.quantity === 0 && "opacity-50 cursor-not-allowed"
+          }`}>
           Add To Cart
         </button>
+
         <div className="flex items-center">
           <button
             className="text-gray-700 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded"

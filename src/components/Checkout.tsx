@@ -43,13 +43,13 @@ const Checkout = () => {
       const accessToken = localStorage.getItem("access");
       const transactionData = {
         transaction_id: details.id,
-        total_amount: details.purchase_units[0].amount.value.toString(), // Ensure it's included and correctly named
+        total_amount: details.purchase_units[0].amount.value.toString(),
         currency: details.purchase_units[0].amount.currency_code,
-        payer_details: details.payer, // This must match the expected structure in your Django model
+        payer_details: details.payer,
         items: cart?.items.map((item) => ({
-          product: item.product.id, // Only the ID, ensuring it's not an object
+          product: item.product.id,
           quantity: item.quantity,
-          price_at_transaction: item.product.price.toString(), // Must be included for each item
+          price_at_transaction: item.product.price.toString(),
         })),
       };
 
@@ -84,7 +84,7 @@ const Checkout = () => {
           <li key={index}>
             <div>
               <h3>{item.product.name}</h3>
-              {/* <p>{item.product.description}</p> */}
+
               <p> Quantity:{item.quantity}</p>
               <p>Price per item: ${item.product.price}</p>
               <p>Subtotal: ${item.product.price * item.quantity}</p>

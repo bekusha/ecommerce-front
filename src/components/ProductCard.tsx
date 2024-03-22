@@ -14,17 +14,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onDelete,
   isAdminView,
 }) => {
-  // Truncate function to limit description length
   const truncateText = (text: string, maxLength: number) => {
     if (text.length <= maxLength) return text;
     return `${text.substring(0, maxLength)}...`;
   };
 
-  // Truncate description to keep it uniform
   const truncatedDescription = truncateText(product.description, 100);
 
   return (
-    <div className="flex flex-col  border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out justify-center items-center text-center">
+    <div className="flex flex-col border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out justify-center items-center text-center h-full">
       {isAdminView && (
         <div className="flex justify-between items-center p-4 bg-gray-100 border-b">
           <button
@@ -37,9 +35,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
             className="text-sm bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
             Delete
           </button>
+          <p className="text-gray-600 text-sm ml-3">
+            Quantity: {product.quantity}
+          </p>
         </div>
       )}
-      <div className="flex-grow p-4 flex flex-col justify-between">
+      <div className="flex-grow p-4 flex flex-col justify-between h-full">
         <div className="flex-1">
           {product.image1 && (
             <img
@@ -48,11 +49,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
               className="w-full h-48 object-contain mb-4"
             />
           )}
-          <div className="product-info">
+          <div className="product-info h-32 overflow-hidden">
             <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
-            <p className="text-gray-700 text-sm mb-4 overflow-hidden">
-              {truncatedDescription}
-            </p>
+            <p className="text-gray-700 text-sm mb-4">{truncatedDescription}</p>
           </div>
         </div>
         <div className="text-gray-900 font-bold">${product.price}</div>

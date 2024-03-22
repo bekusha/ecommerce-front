@@ -61,7 +61,7 @@ const Dashboard = () => {
     }
   };
 
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const categoryId = formData.get("category");
@@ -82,6 +82,7 @@ const Dashboard = () => {
         <p className="text-center text-xl mb-4">
           Welcome, {auth.user.username}
         </p>
+
         <form
           onSubmit={handleSubmit}
           encType="multipart/form-data"
@@ -117,6 +118,13 @@ const Dashboard = () => {
               </option>
             ))}
           </select>
+          <input
+            name="quantity"
+            type="number"
+            placeholder="Quantity"
+            required
+            className="block w-full mb-4 p-2 border border-gray-300 rounded"
+          />
           <input name="image1" type="file" accept="image/*" className="mb-4" />
           <input name="image2" type="file" accept="image/*" className="mb-4" />
           <input name="image3" type="file" accept="image/*" className="mb-4" />
@@ -155,7 +163,14 @@ const Dashboard = () => {
                   required
                   className="block w-full mb-4 p-2 border border-gray-300 rounded"
                 />
-
+                <input
+                  defaultValue={currentProduct.quantity} // Ensure this is populated with the current product quantity
+                  name="quantity"
+                  type="number"
+                  placeholder="Quantity"
+                  required
+                  className="block w-full mb-4 p-2 border border-gray-300 rounded"
+                />
                 <textarea
                   defaultValue={currentProduct.description}
                   name="description"

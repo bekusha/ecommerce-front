@@ -5,9 +5,6 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-800 flex flex-col justify-center items-center text-center text-white p-4  bottom-0 w-full">
       <div className="container ">
-        {/* Column 1: About the company */}
-
-        {/* Column 2: Quick Links */}
         <div>
           <ul>
             <li>
@@ -36,7 +33,6 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* Legal & Copy */}
       <div className="text-center mt-8 border-t border-gray-700 pt-4">
         <p>
           © {new Date().getFullYear()} Beka's Store, Inc. All rights reserved.

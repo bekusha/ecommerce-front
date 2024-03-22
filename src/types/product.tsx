@@ -12,6 +12,7 @@ export interface Product {
   image3?: string;
   image4?: string;
   image5?: string;
+  quantity?: number;
 }
 
 export interface ProductContextType {
