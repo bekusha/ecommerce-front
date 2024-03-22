@@ -72,25 +72,29 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({
     []
   );
 
-  const addProduct = useCallback(async (formData: FormData) => {
-    const token = localStorage.getItem("access"); // Or wherever you store your token
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}product/`,
-        formData, // No need to change anything here
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            // Don't set 'Content-Type': 'multipart/form-data' manually; let the browser set it
-          },
-        }
-      );
-      setProducts((currentProducts) => [...currentProducts, response.data]);
-      console.log("Product added successfully:", response.data);
-    } catch (error) {
-      console.error("Failed to add product:", error);
-    }
-  }, []);
+  const addProduct = useCallback(
+    async (formData: FormData, categoryId: number) => {
+      const token = localStorage.getItem("access"); // Or wherever you store your token
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}product/`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              category: categoryId,
+            },
+          }
+        );
+        setProducts((currentProducts) => [...currentProducts, response.data]);
+      } catch (error) {
+        console.error("Failed to add product:", error);
+      }
+    },
+    []
+  );
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -109,7 +113,6 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({
         `${process.env.NEXT_PUBLIC_API_BASE_URL}product/categories/`
       );
       setCategories(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Failed to fetch categories:", error);
     }
@@ -129,6 +132,17 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({
     }
   }, []);
 
+  const fetchProductsByVendor = useCallback(async (vendorId: number) => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}product/products/by_vendor/${vendorId}/`
+      );
+      setProducts(response.data);
+    } catch (error) {
+      console.error(`Failed to fetch products for vendor ${vendorId}:`, error);
+    }
+  }, []);
+
   useEffect(() => {
     fetchProducts();
     fetchCategories();
@@ -144,6 +158,7 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({
         fetchProducts,
         editProduct,
         deleteProduct,
+        fetchProductsByVendor,
       }}>
       {children}
     </ProductContext.Provider>

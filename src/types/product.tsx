@@ -2,7 +2,7 @@ import { User } from "./user";
 
 export interface Product {
   id: number;
-  vendor: User;
+  vendor: any;
   name: string;
   description: string;
   price: number;
@@ -19,9 +19,10 @@ export interface ProductContextType {
   categories: Category[];
   fetchProducts: () => Promise<void>;
   fetchProductsByCategory: (categoryId: number) => Promise<void>;
-  addProduct: (productData: FormData) => Promise<void>;
+  addProduct: (productData: FormData, categoryId: number) => Promise<void>;
   editProduct: (productId: number, formData: FormData) => Promise<void>;
   deleteProduct: (productId: number) => Promise<void>;
+  fetchProductsByVendor: (vendorId: number) => Promise<void>;
 }
 
 export interface Category {

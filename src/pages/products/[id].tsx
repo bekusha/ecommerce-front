@@ -1,7 +1,6 @@
+import { useEffect, useState } from "react";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import axios from "axios";
-import React, { useState } from "react";
-import { Product } from "@/types/product";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -9,12 +8,19 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 import { useCart } from "@/context/cartContext";
+import { Product } from "@/types/product";
+import { useRouter } from "next/router";
 
 interface ProductDetailProps {
   product: Product;
+  vendorData: string | undefined;
 }
 
-const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
+const ProductDetail: React.FC<ProductDetailProps> = ({
+  product,
+  vendorData,
+}) => {
+  const router = useRouter();
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
 
@@ -24,6 +30,18 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
 
   const handleQuantityChange = (change: number) => {
     setQuantity((prevQuantity) => Math.max(1, prevQuantity + change));
+  };
+
+  const handleVendorClick = async () => {
+    try {
+      // Extract vendor ID from the product data
+      const vendorId = product.vendor;
+
+      // Navigate to the vendor products page
+      router.push(`/vendor-products/${vendorId}`);
+    } catch (error) {
+      console.error("Error navigating to vendor products:", error);
+    }
   };
 
   const images = [
@@ -39,7 +57,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
   }
 
   return (
-    <div className="product-detail justify-center align-center text-center h-screen">
+    <div className="product-detail justify-center align-center text-center">
       <Swiper
         spaceBetween={50}
         slidesPerView={1}
@@ -77,6 +95,11 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
         {product.description}
       </p>
       <p className="text-xl font-semibold mb-4">{product.price * quantity} $</p>
+      <p
+        onClick={handleVendorClick}
+        className="cursor-pointer text-blue-600 hover:text-blue-800 font-semibold underline mb-5">
+        Vendor: {vendorData}
+      </p>
       <div className="flex gap-2 mb-4 md:flex-row items-center justify-center">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded min-w-[20] max-w-[10rem] text-lg md:text-xl "
@@ -104,15 +127,46 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  const { id } = context.params!;
-  const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}product/${id}`
-  );
-  return {
-    props: {
-      product: response.data,
-    },
-  };
+  try {
+    const { id } = context.params!;
+
+    // Fetch product data
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}product/${id}`
+    );
+
+    if (!response.data) {
+      throw new Error("Product data not found");
+    }
+
+    const product = response.data;
+
+    // Extract vendor ID from the product data
+    const vendorId = product.vendor;
+
+    // Fetch vendor data based on the vendor ID
+    const vendorResponse = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}user/vendor/${vendorId}`
+    );
+
+    if (!vendorResponse.data) {
+      throw new Error("Vendor data not found");
+    }
+
+    const vendorUsername = vendorResponse.data.username;
+    console.log(vendorUsername);
+    return {
+      props: {
+        product,
+        vendorData: vendorUsername,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return {
+      notFound: true,
+    };
+  }
 };
 
 export default ProductDetail;

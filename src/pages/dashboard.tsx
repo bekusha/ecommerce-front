@@ -7,8 +7,10 @@ import ProductCard from "@/components/ProductCard";
 
 const Dashboard = () => {
   const auth = useAuth();
-  const { addProduct, editProduct, deleteProduct } = useProducts();
+  const { addProduct, editProduct, deleteProduct, categories } = useProducts();
   const [myProducts, setMyProducts] = useState<Product[]>([]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("access");
@@ -26,7 +28,24 @@ const Dashboard = () => {
   }, [setMyProducts]);
 
   const handleEdit = (productId: number) => {
-    console.log("Edit product", productId);
+    const productToEdit = myProducts.find(
+      (product) => product.id === productId
+    );
+    if (productToEdit) {
+      setCurrentProduct(productToEdit);
+      setIsEditModalOpen(true);
+    }
+  };
+
+  const handleEditSubmit = async (
+    event: React.FormEvent<HTMLFormElement>,
+    productId: number
+  ) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    await editProduct(productId, formData);
+    setIsEditModalOpen(false);
+    // Optionally refresh products or handle UI update accordingly
   };
 
   const handleDelete = async (productId: number) => {
@@ -45,16 +64,15 @@ const Dashboard = () => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    const categoryId = formData.get("category");
 
-    try {
-      if (auth?.user) {
-        await addProduct(formData);
-        alert("Product added successfully!");
-      } else {
-        throw new Error("User not authenticated");
-      }
-    } catch (error) {
-      console.error("Failed to add the product:", error);
+    if (categoryId !== null) {
+      const categoryIdNumber = Number(categoryId);
+      await addProduct(formData, categoryIdNumber);
+      alert("Product added successfully!");
+    } else {
+      console.error("Category ID is null");
+      // Handle the case where categoryId is null
     }
   };
 
@@ -88,6 +106,17 @@ const Dashboard = () => {
             required
             className="block w-full mb-4 p-2 border border-gray-300 rounded"
           />
+          <select
+            name="category"
+            required
+            className="block w-full mb-4 p-2 border border-gray-300 rounded">
+            <option value="">Select a Category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
           <input name="image1" type="file" accept="image/*" className="mb-4" />
           <input name="image2" type="file" accept="image/*" className="mb-4" />
           <input name="image3" type="file" accept="image/*" className="mb-4" />
@@ -112,6 +141,50 @@ const Dashboard = () => {
             />
           ))}
         </div>
+        {isEditModalOpen && currentProduct && (
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-700 bg-opacity-50 z-50">
+            <div className="bg-white p-4 rounded-lg shadow-lg">
+              <h2 className="text-xl font-bold mb-4">Edit Product</h2>
+              <form
+                onSubmit={(e) => handleEditSubmit(e, currentProduct.id)}
+                encType="multipart/form-data">
+                <input
+                  defaultValue={currentProduct.name}
+                  name="name"
+                  type="text"
+                  required
+                  className="block w-full mb-4 p-2 border border-gray-300 rounded"
+                />
+
+                <textarea
+                  defaultValue={currentProduct.description}
+                  name="description"
+                  required
+                  className="block w-full mb-4 p-2 border border-gray-300 rounded"
+                />
+
+                <input
+                  defaultValue={currentProduct.price}
+                  name="price"
+                  type="number"
+                  required
+                  className="block w-full mb-4 p-2 border border-gray-300 rounded"
+                />
+
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white py-2 px-4 rounded">
+                  Save Changes
+                </button>
+                <button
+                  onClick={() => setIsEditModalOpen(false)}
+                  className="ml-2 bg-gray-500 text-white py-2 px-4 rounded">
+                  Cancel
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     );
   } else {

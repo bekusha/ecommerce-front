@@ -1,7 +1,7 @@
 // pages/auth.tsx
 import React, { useState } from "react";
-import Login from "@/components/Login"; // Assume this is your login component
-import Register from "@/components/register";
+import Login from "@/components/Login";
+import Register from "@/components/Register";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);

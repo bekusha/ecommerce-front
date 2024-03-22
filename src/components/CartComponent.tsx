@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useCart } from "@/context/cartContext";
 import Image from "next/image";
-import Checkout from "./checkout";
+import Checkout from "./Checkout";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 const CartComponent = ({ onClose }: { onClose: () => void }) => {
@@ -12,6 +12,7 @@ const CartComponent = ({ onClose }: { onClose: () => void }) => {
     const item = cart?.items.find((item) => item.id === productId);
     if (item) {
       const newQuantity = item.quantity + change;
+      console.log(item!.product.image1);
       if (newQuantity > 0) {
         updateCartItem?.(productId, newQuantity);
       } else {

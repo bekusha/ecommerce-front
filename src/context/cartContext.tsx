@@ -3,6 +3,7 @@ import axios from "axios";
 import { Product } from "@/types/product";
 import { Cart, CartItem } from "@/types/cart";
 import Router from "next/router";
+import { useAuth } from "./authContext";
 
 interface CartContextType {
   cart: Cart | null;
@@ -22,7 +23,6 @@ const CartContext = createContext<CartContextType>({
   },
   updateCartItem: async () => {},
   processPayment: async () => {
-    // Add this line
     /* no-op */
   },
 });
@@ -38,16 +38,17 @@ export const CartProvider = ({ children }: any) => {
     totalPrice: 0,
   });
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth()!;
 
   const getToken = () => localStorage.getItem("access");
-  useEffect(() => {
-    // Logic here will run whenever `cart` changes.
-    console.log("Cart has changed!", cart);
-  }, [cart]);
   useEffect(() => {
     const fetchCart = async () => {
       setLoading(true);
       const token = getToken();
+      if (!token || !user || user.role !== "CONSUMER") {
+        setLoading(false);
+        return;
+      }
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}cart/detail/`,
@@ -80,30 +81,24 @@ export const CartProvider = ({ children }: any) => {
     };
 
     fetchCart();
-  }, []);
-
-  // Inside your CartProvider component, add a new function
+  }, [user]);
 
   const processPayment = async () => {
     setLoading(true);
     const token = getToken();
 
     try {
-      // Assuming your backend expects the cart details in this format
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}payment/checkout/`,
         { cart },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // PayPal approval URL received from the backend
       const approvalUrl = response.data.approval_url;
 
-      // Redirect user to PayPal to approve the payment
       window.location.href = approvalUrl;
     } catch (error) {
       console.error("Failed to process payment:", error);
-      // Handle the error appropriately
     } finally {
       setLoading(false);
     }
@@ -118,7 +113,6 @@ export const CartProvider = ({ children }: any) => {
         { quantity },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      console.log(response);
 
       setCart((currentCart) => {
         if (!currentCart) return null;
@@ -149,7 +143,6 @@ export const CartProvider = ({ children }: any) => {
       });
     } catch (error) {
       console.error("Failed to update cart item:", error);
-      // Handle the error appropriately
     } finally {
       setLoading(false);
     }
@@ -168,15 +161,13 @@ export const CartProvider = ({ children }: any) => {
         }
       );
 
-      // If the request is successful, update the local cart state to remove the item.
-      // This assumes you have a way to easily identify or find the item in the cart by productId.
       setCart((currentCart) => {
         if (!currentCart) return null;
 
         const updatedItems = currentCart.items.filter(
           (item) => item.id !== productId
         );
-        // Calculate the new totals after removal
+
         const updatedTotalItems = updatedItems.reduce(
           (acc, item) => acc + item.quantity,
           0
@@ -195,7 +186,6 @@ export const CartProvider = ({ children }: any) => {
       });
     } catch (error) {
       console.error("Failed to remove item from cart:", error);
-      // Handle the error appropriately
     } finally {
       setLoading(false);
     }
@@ -205,7 +195,6 @@ export const CartProvider = ({ children }: any) => {
     const token = getToken();
 
     try {
-      // Perform the API request to add the item to the server-side cart
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}cart/add/`,
         {
@@ -219,38 +208,31 @@ export const CartProvider = ({ children }: any) => {
         }
       );
 
-      // Assuming the response contains the updated cart or added cart item
       const addedCartItem = response.data;
 
-      // Update local cart state
       setCart((currentCart) => {
         if (!currentCart) {
-          // If there's no current cart, initialize with the added item
           return {
             items: [{ ...addedCartItem, product, quantity }],
             totalItems: quantity,
             totalPrice: parseFloat((product.price * quantity).toFixed(2)),
           };
         } else {
-          // Check if the product is already in the cart
           const existingItemIndex = currentCart.items.findIndex(
             (item) => item.product.id === product.id
           );
 
           let updatedItems = [...currentCart.items];
           if (existingItemIndex !== -1) {
-            // Update quantity for existing item
             const existingItem = updatedItems[existingItemIndex];
             updatedItems[existingItemIndex] = {
               ...existingItem,
               quantity: existingItem.quantity + quantity,
             };
           } else {
-            // Add new item to cart
             updatedItems.push({ ...addedCartItem, product, quantity });
           }
 
-          // Recalculate totalItems and totalPrice
           const updatedTotalItems = updatedItems.reduce(
             (acc, item) => acc + item.quantity,
             0
@@ -260,7 +242,6 @@ export const CartProvider = ({ children }: any) => {
             0
           );
 
-          // Return updated cart
           return {
             items: updatedItems,
             totalItems: updatedTotalItems,
@@ -270,7 +251,6 @@ export const CartProvider = ({ children }: any) => {
       });
     } catch (error) {
       console.error("Failed to add item to cart:", error);
-      // Handle error appropriately
     } finally {
       setLoading(false);
     }

@@ -43,7 +43,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
         );
-        console.log(process.env.apiUrl);
+
         setUser(userDetailsResponse.data);
       } catch (error) {
         console.error("Failed to fetch user details:", error);
@@ -82,8 +82,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem("access");
+    const confirmLogout = window.confirm("Are you sure you want to logout?");
+    if (confirmLogout) {
+      setUser(null);
+      localStorage.removeItem("access");
+    }
   };
 
   const value = {

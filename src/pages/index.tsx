@@ -7,11 +7,15 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 const Home = () => {
-  const { products, categories, fetchProductsByCategory } = useProducts();
+  const { products, categories, fetchProductsByCategory, fetchProducts } =
+    useProducts();
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleCategoryClick = (categoryId: number) => {
     fetchProductsByCategory(categoryId);
+  };
+  const handleResetFilters = () => {
+    fetchProducts(); // This assumes you have such a function to reset or fetch all products without filter
   };
 
   const handleSearchChange = (event: any) => {
@@ -54,6 +58,11 @@ const Home = () => {
             {category.name}
           </button>
         ))}
+        <button
+          onClick={handleResetFilters}
+          className="m-2 bg-blue-500 text-white px-4 py-2 rounded-full cursor-pointer hover:bg-blue-600 transition duration-300 ease-in-out">
+          Reset Filters
+        </button>
       </nav>
 
       <main>

@@ -11,6 +11,11 @@ const Register = () => {
     role: "CONSUMER",
   });
 
+  const roleOptions = [
+    { value: "CONSUMER", label: "Consumer" },
+    { value: "VENDOR", label: "Vendor" },
+  ];
+
   const { username, email, password, password2, role } = formData;
 
   const onChange = (
@@ -45,13 +50,11 @@ const Register = () => {
           config
         );
 
-        Router.push("/login");
+        Router.push("/");
       } catch (error) {
         if (error instanceof Error) {
           console.error(error.message);
         }
-
-        // Implement proper error handling
       }
     }
   };
