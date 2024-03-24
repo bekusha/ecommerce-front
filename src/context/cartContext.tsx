@@ -11,7 +11,6 @@ interface CartContextType {
   addToCart: (product: Product, quantity: number) => Promise<void>;
   removeFromCart: (productId: number) => Promise<void>;
   updateCartItem: (productId: number, quantity: number) => Promise<void>;
-  processPayment: () => Promise<void>;
 }
 
 const CartContext = createContext<CartContextType>({
@@ -22,9 +21,9 @@ const CartContext = createContext<CartContextType>({
     /* no-op */
   },
   updateCartItem: async () => {},
-  processPayment: async () => {
-    /* no-op */
-  },
+  // processPayment: async () => {
+  //   /* no-op */
+  // },
 });
 
 export function useCart() {
@@ -83,26 +82,26 @@ export const CartProvider = ({ children }: any) => {
     fetchCart();
   }, [user]);
 
-  const processPayment = async () => {
-    setLoading(true);
-    const token = getToken();
+  // const processPayment = async () => {
+  //   setLoading(true);
+  //   const token = getToken();
 
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}payment/checkout/`,
-        { cart },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+  //   try {
+  //     const response = await axios.post(
+  //       `${process.env.NEXT_PUBLIC_API_BASE_URL}payment/checkout/`,
+  //       { cart },
+  //       { headers: { Authorization: `Bearer ${token}` } }
+  //     );
 
-      const approvalUrl = response.data.approval_url;
+  //     const approvalUrl = response.data.approval_url;
 
-      window.location.href = approvalUrl;
-    } catch (error) {
-      console.error("Failed to process payment:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     window.location.href = approvalUrl;
+  //   } catch (error) {
+  //     console.error("Failed to process payment:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const updateCartItem = async (cartItemId: number, quantity: number) => {
     setLoading(true);
@@ -262,7 +261,6 @@ export const CartProvider = ({ children }: any) => {
     addToCart,
     removeFromCart,
     updateCartItem,
-    processPayment,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

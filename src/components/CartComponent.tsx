@@ -49,10 +49,12 @@ const CartComponent = ({ onClose }: { onClose: () => void }) => {
       {cart && cart.items.length > 0 ? (
         cart.items.map((item, index) => (
           <div key={index} className="flex justify-between items-center my-2">
-            <span className="text-sm">{item.product.name}</span>
+            <span className="text-sm overflow-hidden overflow-ellipsis max-h-10 max-w-10">
+              {item.product.name}
+            </span>
             <div className="flex items-center">
               <Image
-                src={item.product.image1!}
+                src={`${process.env.NEXT_PUBLIC_API_BASE}${item.product.image1}`}
                 alt={item.product.name}
                 width={50}
                 height={50}

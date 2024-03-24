@@ -11,6 +11,9 @@ const Dashboard = () => {
   const [myProducts, setMyProducts] = useState<Product[]>([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
+  const [paypalAddress, setPaypalAddress] = useState("");
+
+  const { addPaypalAddress } = useAuth()!;
 
   useEffect(() => {
     const token = localStorage.getItem("access");
@@ -76,6 +79,19 @@ const Dashboard = () => {
     }
   };
 
+  const handlePaypalAddressUpdate = async () => {
+    try {
+      // Call the function to update the PayPal address
+      await addPaypalAddress(paypalAddress);
+      // Optionally, you can clear the input field after successful update
+      // setPaypalAddress("");
+      // alert("PayPal address updated successfully!");
+    } catch (error) {
+      console.error("Error updating PayPal address:", error);
+      alert("Failed to update PayPal address.");
+    }
+  };
+
   if (auth && auth.user) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -136,6 +152,21 @@ const Dashboard = () => {
             Add Product
           </button>
         </form>
+        <div className="mb-4">
+          <input
+            name="paypal_address"
+            type="text"
+            placeholder="PayPal Address"
+            value={paypalAddress}
+            onChange={(e) => setPaypalAddress(e.target.value)}
+            className="block w-full p-2 border border-gray-300 rounded"
+          />
+          <button
+            onClick={handlePaypalAddressUpdate}
+            className="bg-blue-500 text-white py-2 px-4 rounded mt-2">
+            Update PayPal Address
+          </button>
+        </div>
 
         <h1 className="text-xl font-bold mb-4">My Products</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

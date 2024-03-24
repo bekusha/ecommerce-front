@@ -17,6 +17,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
+  addPaypalAddress: (paypalAddress: string) => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -89,11 +90,42 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
+  const addPaypalAddress = async (paypalAddress: string) => {
+    try {
+      const accessToken = localStorage.getItem("access");
+      if (accessToken) {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}user/update-paypal-address/`,
+          { paypal_address: paypalAddress },
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+        // Update the user state with the updated PayPal address
+        setUser((prevUser) => {
+          if (prevUser) {
+            return {
+              ...prevUser,
+              paypal_address: response.data.paypal_address,
+            };
+          }
+          return null;
+        });
+        return true; // Adding PayPal address was successful
+      }
+      return false; // No access token found
+    } catch (error) {
+      console.error("Error adding PayPal address:", error);
+      return false; // Adding PayPal address failed
+    }
+  };
+
   const value = {
     user,
     loading,
     login,
     logout,
+    addPaypalAddress,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
