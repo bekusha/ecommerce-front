@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <div className="flex flex-col h-screen">
             {" "}
             {/* Ensures the container takes the full viewport height */}
-            <Header children={undefined} />
+            <Header />
             <main className="flex-grow">
               {" "}
               {/* Allows main content to expand and fill available space */}

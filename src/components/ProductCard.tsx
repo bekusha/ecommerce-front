@@ -1,5 +1,6 @@
 import React from "react";
 import { Product } from "@/types/product";
+import Image from "next/image";
 
 interface ProductCardProps {
   product: Product;
@@ -43,7 +44,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <div className="flex-grow p-4 flex flex-col justify-between h-full">
         <div className="flex-1">
           {product.image1 && (
-            <img
+            <Image
+              height={100}
+              width={100}
               src={product.image1}
               alt={product.name}
               className="w-full h-48 object-contain mb-4"

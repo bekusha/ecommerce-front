@@ -6,11 +6,11 @@ import { useAuth } from "@/context/authContext";
 import { Role } from "@/types/user";
 import CartComponent from "./CartComponent";
 
-type HeaderProps = {
-  children: ReactNode;
-};
+// type HeaderProps = {
+//   children: ReactNode;
+// };
 
-const Header: React.FC<HeaderProps> = ({ children }) => {
+const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { user, logout, loading } = useAuth()!;
@@ -25,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
           {/* Logo and title */}
           <Link href="/">
             <div className="flex items-center">
-              <span className="text-xl font-semibold">Beka's Store</span>
+              <span className="text-xl font-semibold"> {"Beka's"} Store</span>
             </div>
           </Link>
 
@@ -143,7 +143,7 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
       </header>
       {/* Conditionally render CartComponent based on isCartOpen */}
       {isCartOpen && <CartComponent onClose={closeCart} />}
-      <main>{children}</main>
+      {/* <main>{children}</main> */}
     </>
   );
 };

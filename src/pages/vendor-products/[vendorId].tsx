@@ -12,7 +12,6 @@ const VendorProductsPage: React.FC = () => {
 
   useEffect(() => {
     if (vendorId) {
-      // Fetch products by vendor ID
       fetchProductsByVendor(Number(vendorId));
     }
   }, [vendorId]);
