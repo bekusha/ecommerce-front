@@ -22,13 +22,6 @@ const Footer: React.FC = () => {
                 <div className="text-blue-400 hover:underline">About</div>
               </Link>
             </li>
-            <li>
-              <Link href="/auth">
-                <div className="text-blue-400 hover:underline">
-                  Login/Register
-                </div>
-              </Link>
-            </li>
           </ul>
         </div>
       </div>

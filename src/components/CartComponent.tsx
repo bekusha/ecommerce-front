@@ -8,6 +8,13 @@ const CartComponent = ({ onClose }: { onClose: () => void }) => {
   const { cart, removeFromCart, updateCartItem } = useCart();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
 
+  function getImageUrl(path: any) {
+    if (path.startsWith("http")) {
+      return path; // Path is already a full URL
+    }
+    return `${process.env.NEXT_PUBLIC_API_BASE}${path}`;
+  }
+
   const handleQuantityChange = (productId: number, change: number) => {
     const item = cart?.items.find((item) => item.id === productId);
     if (item) {
@@ -54,7 +61,7 @@ const CartComponent = ({ onClose }: { onClose: () => void }) => {
             </span>
             <div className="flex items-center">
               <Image
-                src={`${process.env.NEXT_PUBLIC_API_BASE}${item.product.image1}`}
+                src={getImageUrl(item.product.image1)}
                 alt={item.product.name}
                 width={50}
                 height={50}
