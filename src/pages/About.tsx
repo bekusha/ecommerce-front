@@ -15,8 +15,8 @@ interface AboutProps {
 const About = ({ data }: AboutProps) => {
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-gray-50 text-gray-800">
-      <h1 className="text-4xl font-bold mb-4">{data.title}</h1>
-      <p className="text-xl">{data.content}</p>
+      {/* <h1 className="text-4xl font-bold mb-4">{data.title}</h1>
+      <p className="text-xl">{data.content}</p> */}
     </div>
   );
 };
