@@ -81,12 +81,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   function isTokenExpired(token: string) {
-    const payloadBase64 = token.split(".")[1];
-    const decodedJson = Buffer.from(payloadBase64, "base64").toString();
-    const decoded = JSON.parse(decodedJson);
-    const exp = decoded.exp;
-    const now = Date.now() / 1000; // Current time in seconds since epoch
-    return exp < now;
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload.exp * 1000 < Date.now(); // Ensure time units are consistent
   }
 
   // Enhanced refreshToken function with user details update

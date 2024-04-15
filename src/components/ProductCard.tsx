@@ -45,11 +45,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="flex-1">
           {product.image1 && (
             <Image
-              height={100}
-              width={100}
+              height={192} // Adjusted to match the h-48 class
+              width={192} // Adjusted to maintain aspect ratio
               src={product.image1}
               alt={product.name}
               className="w-full h-48 object-contain mb-4"
+              layout="responsive" // Optional: Makes the image responsive
             />
           )}
           <div className="product-info h-32 overflow-hidden">

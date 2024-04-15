@@ -9,6 +9,11 @@ const nextConfig = {
         port: "8000",
         pathname: "/media/product_images/*",
       },
+      {
+        protocol: "https", // Assuming your API uses HTTPS
+        hostname: "api.bekasstore.pro",
+        pathname: "/media/product_images/*",
+      },
     ],
   },
 };
