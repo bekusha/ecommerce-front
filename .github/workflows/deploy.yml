@@ -2,7 +2,7 @@ name: Deploy on server
 on:
   push:
     branches:
-      - main
+      - master
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -23,7 +23,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << EOF
             cd client-app
-            git pull origin main
+            git pull origin master
             npm ci
             npm run build
             pm2 restart ecommerce-front
