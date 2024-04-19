@@ -1,21 +1,27 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
+// @type {import('next').NextConfig}
+// const nextConfig = {
+//   reactStrictMode: true,
+//   images: {
+//     remotePatterns: [
+//       {
+//         protocol: "http",
+//         hostname: "localhost",
+//         port: "8000",
+//         pathname: "/media/product_images",
+//       },
+//       {
+//         protocol: "https", // Assuming your AP>
+//         hostname: "api.bekasstore.pro",
+//         pathname: "/media/product_images",
+//       },
+//     ],
+//   },
+// };
+
+// export default nextConfig;
+
+export default {
   images: {
-    remotePatterns: [
-      {
-        protocol: "http",
-        hostname: "localhost",
-        port: "8000",
-        pathname: "/media/product_images/*",
-      },
-      {
-        protocol: "https", // Assuming your API uses HTTPS
-        hostname: "api.bekasstore.pro",
-        pathname: "/media/product_images/*",
-      },
-    ],
+    domains: ["localhost", "api.bekasstore.pro"],
   },
 };
-
-export default nextConfig;

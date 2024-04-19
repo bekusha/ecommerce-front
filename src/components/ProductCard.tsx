@@ -21,7 +21,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   const truncatedDescription = truncateText(product.description, 100);
-
+  console.log(product.image1);
   return (
     <div className="flex flex-col border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out justify-center items-center text-center h-full">
       {isAdminView && (
@@ -44,13 +44,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <div className="flex-grow p-4 flex flex-col justify-between h-full">
         <div className="flex-1">
           {product.image1 && (
-            <Image
-              height={192} // Adjusted to match the h-48 class
-              width={192} // Adjusted to maintain aspect ratio
+            // <Image
+            //   height={192} // Adjusted to match the h-48 class
+            //   width={192} // Adjusted to maintain aspect ratio
+            //   src={product.image1}
+            //   alt={product.name}
+            //   className="w-full h-48 object-contain mb-4"
+            //   layout="responsive"
+            // />
+            <img
               src={product.image1}
               alt={product.name}
               className="w-full h-48 object-contain mb-4"
-              layout="responsive" // Optional: Makes the image responsive
             />
           )}
           <div className="product-info h-32 overflow-hidden">
