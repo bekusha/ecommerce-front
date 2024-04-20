@@ -24,7 +24,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << EOF
             cd ecommerce-front
             git pull origin master
-            npm install
+            npm ci
             npm run build
             pm2 restart ecommerce-front
           EOF
