@@ -9,12 +9,12 @@ const Footer: React.FC = () => {
           <ul>
             <li>
               <Link href="/">
-                <div className="text-red-400 hover:underline">Home</div>
+                <div className="text-blue-400 hover:underline">Home</div>
               </Link>
             </li>
             <li>
               <Link href="/contact">
-                <div className="text-red-400 hover:underline">Contact Us</div>
+                <div className="text-blue-400 hover:underline">Contact Us</div>
               </Link>
             </li>
             <li>
