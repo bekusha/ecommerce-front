@@ -80,16 +80,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(false);
   };
 
-  function isTokenExpired(token: string, leeway = 30000) {
-    // leeway in milliseconds, e.g., 30 seconds
+  function isTokenExpired(token: string) {
     const payload = JSON.parse(atob(token.split(".")[1]));
-    return payload.exp * 1000 + leeway < Date.now();
+    return payload.exp * 1000 < Date.now(); // Ensure time units are consistent
   }
-
-  // function isTokenExpired(token: string) {
-  //   const payload = JSON.parse(atob(token.split(".")[1]));
-  //   return payload.exp * 1000 < Date.now(); // Ensure time units are consistent
-  // }
 
   // Enhanced refreshToken function with user details update
   const refreshToken = async () => {
@@ -196,6 +190,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (confirmLogout) {
       setUser(null);
       localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
     }
   };
 
