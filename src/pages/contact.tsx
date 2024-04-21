@@ -16,7 +16,7 @@ interface ContactProps {
 const Contact = ({ data }: ContactProps) => {
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 p-4">
-      {/* <h1 className="text-4xl font-bold mb-2">{data.title}</h1>
+      <h1 className="text-4xl font-bold mb-2">{data.title}</h1>
       <p className="text-xl mb-4">{data.content}</p>
       <div className="text-lg">
         <p>
@@ -31,24 +31,24 @@ const Contact = ({ data }: ContactProps) => {
             {data.phone}
           </a>
         </p>
-      </div> */}
+      </div>
     </div>
   );
 };
 
-// export async function getStaticProps() {
-//   try {
-//     const res = await axios.get(
-//       `${process.env.NEXT_PUBLIC_API_BASE_URL}content/contact/`
-//     );
-//     return { props: { data: res.data } };
-//   } catch (error) {
-//     console.error("Error fetching contact data:", error);
-//     // Return empty props or default values as a fallback
-//     return {
-//       props: { data: { title: "Error", content: "", email: "", phone: "" } },
-//     };
-//   }
-// }
+export async function getStaticProps() {
+  try {
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}content/contact/`
+    );
+    return { props: { data: res.data } };
+  } catch (error) {
+    console.error("Error fetching contact data:", error);
+    // Return empty props or default values as a fallback
+    return {
+      props: { data: { title: "Error", content: "", email: "", phone: "" } },
+    };
+  }
+}
 
 export default Contact;
