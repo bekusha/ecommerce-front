@@ -44,19 +44,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <div className="flex-grow p-4 flex flex-col justify-between h-full">
         <div className="flex-1">
           {product.image1 && (
-            // <Image
-            //   height={192} // Adjusted to match the h-48 class
-            //   width={192} // Adjusted to maintain aspect ratio
-            //   src={product.image1}
-            //   alt={product.name}
-            //   className="w-full h-48 object-contain mb-4"
-            //   layout="responsive"
-            // />
-            <img
-              src={product.image1}
-              alt={product.name}
-              className="w-full h-48 object-contain mb-4"
-            />
+            <div className="image-container w-full h-48 relative mb-4">
+              <Image
+                src={product.image1}
+                alt={product.name}
+                className="object-contain w-full h-full"
+                layout="fill"
+              />
+            </div>
           )}
           <div className="product-info h-32 overflow-hidden">
             <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
