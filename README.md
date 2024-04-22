@@ -26,26 +26,6 @@ Bekas Store is a dynamic e-commerce platform that allows users to register eithe
 
 
 
-
-
-## Contributing
-
-Contributions are always welcome!
-
-See `contributing.md` for ways to get started.
-
-Please adhere to this project's `code of conduct`.
-
-
-## Deployment
-
-To deploy this project run
-
-```bash
-  npm run deploy
-```
-
-
 ## Run Locally
 
 Clone the project
