@@ -1,40 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Bekas Store
 
-## Getting Started
+## Description
+Bekas Store is a dynamic e-commerce platform that allows users to register either as a consumer or a vendor. Consumers can browse products, add them to their cart, calculate prices, and make payments using PayPal. Vendors have the ability to list and manage their products for sale on the platform. The website features JWT authentication to ensure secure access and transactions.
 
-First, run the development server:
+Visit the live site: [Bekas Store](https://www.bekasstore.pro)
+
+## Installation
+
+To get started with the Bekas Store project locally, follow these steps:
 
 ```bash
+## Clone the repository
+git clone https://github.com/bekusha/ecommerce-front.git
+
+# Navigate to the project directory
+cd ecommerce-front
+
+# Install dependencies
+npm install
+
+# Run the application
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Ensure you have Node.js installed on your system to use npm commands.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#Features
+User Registration: Users can sign up as either a consumer or a vendor.
+Shopping Cart: Consumers can add products to their cart and view the total price.
+Payment Integration: Complete purchases through a secure PayPal integration.
+Product Management: Vendors can manage their product listings.
+Secure Authentication: Utilizes JWT for secure authentication processes.
+Contributing
+Contributions are welcome! Please fork the repository and create a pull request with your new features or fixes.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Fork the Project
+Create your Feature Branch (git checkout -b feature/AmazingFeature)
+Commit your Changes (git commit -m 'Add some AmazingFeature')
+Push to the Branch (git push origin feature/AmazingFeature)
+Open a Pull Request
+License
+Distributed under the MIT License. See LICENSE for more information.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Contact
+For support, contact email or open an issue on the GitHub repository.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+#Tecnologies
+Node.js
+React
+Next.js
+PayPal
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+#Screenshots
+- [View Cart](/images/cart.png)
+- [View Login](/images/login.png)
+- [View Main](/images/main.png)
+- [View Vendor](/images/vendor.png)
+- [View Vendor Edit](/images/vendoredit.png)
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Additional Documentation
+For more details, visit the official documentation.
