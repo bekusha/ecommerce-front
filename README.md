@@ -3,6 +3,8 @@
 
 Bekas Store is a dynamic e-commerce platform that allows users to register either as a consumer or a vendor. Consumers can browse products, add them to their cart, calculate prices, and make payments using PayPal. Vendors have the ability to list and manage their products for sale on the platform. The website features JWT authentication to ensure secure access and transactions.
 
+## Live
+https://www.bekasstore.pro/
 
 ## Authors
 

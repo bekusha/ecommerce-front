@@ -121,59 +121,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       handleReauthentication();
     }
   };
-  // const refreshToken = async () => {
-  //   try {
-  //     const refreshTokenValue = localStorage.getItem("refresh");
-  //     if (!refreshTokenValue) {
-  //       throw new Error("No refresh token available");
-  //     }
-
-  //     const response = await apiClient.post(
-  //       `${process.env.NEXT_PUBLIC_API_BASE_URL}user/token/refresh/`,
-  //       {
-  //         refresh: refreshTokenValue,
-  //       }
-  //     );
-
-  //     const newAccessToken = response.data.access;
-  //     localStorage.setItem("access", newAccessToken); // Update access token in storage
-
-  //     apiClient.defaults.headers.common[
-  //       "Authorization"
-  //     ] = `Bearer ${newAccessToken}`;
-
-  //     // Fetch user details again to update the user state
-  //     await loadUserDetails(newAccessToken);
-
-  //     return newAccessToken; // Return the new token
-  //   } catch (error) {
-  //     console.error("Token refresh failed:", error);
-  //     localStorage.removeItem("access");
-  //     localStorage.removeItem("refresh");
-  //     handleReauthentication(); // Initiate re-authentication flow
-  //     throw error; // Re-throw error to ensure the interceptor chain is aware
-  //   }
-  // };
-
-  // Axios interceptor setup remains the same
-
-  // const refreshToken = async () => {
-  //   try {
-  //     const response = await axios.posxt(
-  //       `${process.env.NEXT_PUBLIC_API_BASE_URL}user/token/refresh/`,
-  //       {'refresh':},
-  //       { withCredentials: true } // Ensure cookies are sent with the request
-  //     );
-  //     const newAccessToken = response.data.access;
-  //     localStorage.setItem("access", newAccessToken);
-  //     console.log("Token refreshed successfully");
-  //     loadUserDetails(newAccessToken);
-  //   } catch (error) {
-  //     console.error("Error refreshing token:", error);
-  //     // Prompt user to re-authenticate, could be a redirect to login page or showing a modal
-  //     // promptUserLogin(); // This is a hypothetical function you would implement
-  //   }
-  // };
 
   const loadUserDetails = async (accessToken: string) => {
     try {
