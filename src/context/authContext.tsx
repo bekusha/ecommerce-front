@@ -34,6 +34,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
     baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   });
 
+  let isRefreshing = false;
+  let failedQueue = [];
+
   apiClient.interceptors.response.use(
     (response) => response, // Just return the response if it's successful
     async (error) => {
@@ -62,6 +65,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     initializeAuth();
+
+    const intervalId = setInterval(() => {
+      const accessToken = localStorage.getItem("access");
+      if (accessToken && isTokenExpired(accessToken)) {
+        refreshToken(); // Call refreshToken if the token has expired
+      }
+    }, 35000); // Refresh every 55 seconds
+
+    return () => clearInterval(intervalId); // Clear interval on component unmount
   }, []);
 
   const initializeAuth = async () => {
@@ -86,39 +98,62 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   // Enhanced refreshToken function with user details update
-  const refreshToken = async () => {
-    try {
-      const refreshTokenValue = localStorage.getItem("refresh");
-      if (!refreshTokenValue) {
-        throw new Error("No refresh token available");
-      }
 
+  const refreshToken = async () => {
+    const refreshTokenValue = localStorage.getItem("refresh");
+    if (!refreshTokenValue) {
+      console.error("No refresh token available");
+      handleReauthentication(); // handle re-authentication logic
+      return;
+    }
+    try {
       const response = await apiClient.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}user/token/refresh/`,
-        {
-          refresh: refreshTokenValue,
-        }
+        { refresh: refreshTokenValue }
       );
-
       const newAccessToken = response.data.access;
-      localStorage.setItem("access", newAccessToken); // Update access token in storage
-
+      localStorage.setItem("access", newAccessToken);
       apiClient.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${newAccessToken}`;
-
-      // Fetch user details again to update the user state
-      await loadUserDetails(newAccessToken);
-
-      return newAccessToken; // Return the new token
     } catch (error) {
       console.error("Token refresh failed:", error);
-      localStorage.removeItem("access");
-      localStorage.removeItem("refresh");
-      handleReauthentication(); // Initiate re-authentication flow
-      throw error; // Re-throw error to ensure the interceptor chain is aware
+      handleReauthentication();
     }
   };
+  // const refreshToken = async () => {
+  //   try {
+  //     const refreshTokenValue = localStorage.getItem("refresh");
+  //     if (!refreshTokenValue) {
+  //       throw new Error("No refresh token available");
+  //     }
+
+  //     const response = await apiClient.post(
+  //       `${process.env.NEXT_PUBLIC_API_BASE_URL}user/token/refresh/`,
+  //       {
+  //         refresh: refreshTokenValue,
+  //       }
+  //     );
+
+  //     const newAccessToken = response.data.access;
+  //     localStorage.setItem("access", newAccessToken); // Update access token in storage
+
+  //     apiClient.defaults.headers.common[
+  //       "Authorization"
+  //     ] = `Bearer ${newAccessToken}`;
+
+  //     // Fetch user details again to update the user state
+  //     await loadUserDetails(newAccessToken);
+
+  //     return newAccessToken; // Return the new token
+  //   } catch (error) {
+  //     console.error("Token refresh failed:", error);
+  //     localStorage.removeItem("access");
+  //     localStorage.removeItem("refresh");
+  //     handleReauthentication(); // Initiate re-authentication flow
+  //     throw error; // Re-throw error to ensure the interceptor chain is aware
+  //   }
+  // };
 
   // Axios interceptor setup remains the same
 
