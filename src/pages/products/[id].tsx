@@ -36,6 +36,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
       return; // Prevent further execution
     }
     await addToCart(product, quantity);
+    alert("Product has been successfully added to the cart");
   };
 
   const handleQuantityChange = (change: number) => {
