@@ -18,6 +18,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   addPaypalAddress: (paypalAddress: string) => Promise<boolean>;
+  isLoggedIn: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -29,6 +30,7 @@ export function useAuth() {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const apiClient = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -156,7 +158,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           headers: { Authorization: `Bearer ${loginResponse.data.access}` },
         }
       );
-
+      setIsLoggedIn(true);
       setUser(userDetailsResponse.data);
       setLoading(false);
       return true; // Login was successful
@@ -171,6 +173,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const confirmLogout = window.confirm("Are you sure you want to logout?");
     if (confirmLogout) {
       setUser(null);
+      setIsLoggedIn(false);
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
     }
@@ -212,6 +215,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     login,
     logout,
     addPaypalAddress,
+    isLoggedIn,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -10,6 +10,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import { useCart } from "@/context/cartContext";
 import { Product } from "@/types/product";
 import { useRouter } from "next/router";
+import { useAuth } from "@/context/authContext";
 
 interface ProductDetailProps {
   product: Product;
@@ -23,8 +24,13 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
   const router = useRouter();
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
+  const { isLoggedIn } = useAuth()!;
 
   const handleAddToCart = async () => {
+    if (!isLoggedIn) {
+      alert("You need to log in to use this feature.");
+      return; // Prevent further execution if not logged in
+    }
     if (product.quantity === 0) {
       alert("This product is out of stock.");
       return; // Prevent further execution
