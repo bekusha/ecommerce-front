@@ -30,7 +30,7 @@ const Header: React.FC = () => {
           </Link>
 
           {/* Navigation links */}
-          <nav className="hidden md:flex space-x-4">
+          <nav className="hidden md:flex ">
             <Link href="/">
               <div className="hover:text-gray-400">Home</div>
             </Link>
