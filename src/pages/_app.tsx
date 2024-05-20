@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <AuthProvider>
       <ProductProvider>
         <CartProvider>
-          <div className="flex flex-col h-screen">
+          <div className="flex flex-col h-screen bg-black">
             {" "}
             {/* Ensures the container takes the full viewport height */}
             <Header />

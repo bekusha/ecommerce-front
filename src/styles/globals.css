@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* styles.css or in your global styles */
+.underline-animation {
+  position: relative;
+  overflow: visible;
+}
+
+.underline-animation::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px; /* Increase this negative value to lower the underline further */
+  width: 0;
+  height: 2px; /* Thickness of the underline */
+  background-color: red; /* Color of the underline */
+  transition: width 0.3s ease-in-out;
+}
+
+.underline-animation:hover::after {
+  width: 100%;
+}
+
+body {
+  background: black;
+}

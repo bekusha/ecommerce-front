@@ -5,6 +5,7 @@ import { ShoppingCartIcon } from "@heroicons/react/24/outline"; // Import icons
 import { useAuth } from "@/context/authContext";
 import { Role } from "@/types/user";
 import CartComponent from "./CartComponent";
+import Chat from "@/components/Chat";
 
 // type HeaderProps = {
 //   children: ReactNode;
@@ -15,30 +16,45 @@ const Header: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const { user, logout, loading } = useAuth()!;
   const cartRef = useRef(null);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const toggleCart = () => setIsCartOpen(!isCartOpen);
   const closeCart = () => setIsCartOpen(false);
+
+  const handleChatToggle = () => setIsChatOpen(!isChatOpen);
   return (
     <>
-      <header className="bg-gray-800 text-white p-4">
-        <div className="container mx-auto flex justify-between items-center">
+      <header className="bg-black  p-4">
+        <div className="container mx-auto flex justify-between items-center text-white">
           {/* Logo and title */}
           <Link href="/">
             <div className="flex items-center">
-              <span className="text-xl font-semibold"> {"Beka's"} Store</span>
+              <span className="text-xl font-semibold hover:text-red-500">
+                {" "}
+                KROSS Georgia
+              </span>
             </div>
           </Link>
-
+          <Chat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
           {/* Navigation links */}
-          <nav className="hidden md:flex ">
+          <nav className="hidden md:flex md:gap-8 z-50">
             <Link href="/">
-              <div className="hover:text-gray-400">Home</div>
+              <div
+                onClick={handleChatToggle}
+                className="underline-animation hover:text-red-500 ">
+                შეარჩიე ზეთი
+              </div>
+              <Chat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
             </Link>
             <Link href="/about">
-              <div className="hover:text-gray-400">About Us</div>
+              <div className=" underline-animation hover:text-red-500">
+                KROSS Georgia-ს შესახებ
+              </div>
             </Link>
             <Link href="/contact">
-              <div className="hover:text-gray-400">Contact</div>
+              <div className="underline-animation hover:text-red-500">
+                კონტაქტი
+              </div>
             </Link>
             {user ? (
               <>
@@ -53,7 +69,7 @@ const Header: React.FC = () => {
 
                 {user.role === Role.VENDOR && (
                   <Link href="/dashboard">
-                    <div className="hover:text-gray-400 ml-4">Dashboard</div>
+                    <div className="hover:text-gray-400 ml-4">ადმინ პანელი</div>
                   </Link>
                 )}
                 <button onClick={logout} className="ml-4">
@@ -62,7 +78,7 @@ const Header: React.FC = () => {
               </>
             ) : (
               <Link href="/auth">
-                <div className="hover:text-gray-400">Login/Register</div>
+                <div className="hover:text-gray-400">შესვლა/რეგისტრაცია</div>
               </Link>
             )}
           </nav>
@@ -90,17 +106,17 @@ const Header: React.FC = () => {
             }`}>
             <li className="md:ml-8 text-xl md:my-0 my-7">
               <Link href="/">
-                <div className="hover:text-gray-400">Home</div>
+                <div className="hover:text-gray-400">შეარჩიე ზეთი</div>
               </Link>
             </li>
             <li className="md:ml-8 text-xl md:my-0 my-7">
               <Link href="/about">
-                <div className="hover:text-gray-400">About Us</div>
+                <div className="hover:text-gray-400">ჩვენს შესახებ</div>
               </Link>
             </li>
             <li className="md:ml-8 text-xl md:my-0 my-7">
               <Link href="/contact">
-                <div className="hover:text-gray-400">Contact</div>
+                <div className="hover:text-gray-400">კონტაქტი</div>
               </Link>
             </li>
             {user ? (
@@ -119,13 +135,15 @@ const Header: React.FC = () => {
                 {user.role === Role.VENDOR && (
                   <li className="md:ml-8 text-xl md:my-0 my-7">
                     <Link href="/dashboard">
-                      <div className="hover:text-gray-400 ml-4">Dashboard</div>
+                      <div className="hover:text-gray-400 ml-4">
+                        ადმინ პანელი
+                      </div>
                     </Link>
                   </li>
                 )}
                 <li className="md:ml-8 text-xl md:my-0 my-7">
                   <button onClick={logout} className="ml-4">
-                    Logout
+                    გასვლა
                   </button>
                 </li>
 
@@ -134,7 +152,7 @@ const Header: React.FC = () => {
             ) : (
               <li className="md:ml-8 text-xl md:my-0 my-7">
                 <Link href="/auth">
-                  <div className="hover:text-gray-400">Login/Register</div>
+                  <div className="hover:text-gray-400">შესვლა/რეგისტრაცია</div>
                 </Link>
               </li>
             )}

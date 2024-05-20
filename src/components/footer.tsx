@@ -3,23 +3,29 @@ import Link from "next/link";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-800 flex flex-col justify-center items-center text-center text-white p-4  bottom-0 w-full">
+    <footer className="bg-black flex flex-col justify-center items-center text-center text-white p-4  bottom-0 w-full">
       <div className="container ">
         <div>
           <ul>
             <li>
               <Link href="/">
-                <div className="text-blue-400 hover:underline">Home</div>
+                <div className="text-white hover:underline hover:text-red-500">
+                  Home
+                </div>
               </Link>
             </li>
             <li>
               <Link href="/contact">
-                <div className="text-blue-400 hover:underline">Contact Us</div>
+                <div className="text-white hover:underline hover:text-red-500">
+                  Contact Us
+                </div>
               </Link>
             </li>
             <li>
               <Link href="/about">
-                <div className="text-blue-400 hover:underline">About</div>
+                <div className="text-white hover:underline hover:text-red-500">
+                  About
+                </div>
               </Link>
             </li>
           </ul>

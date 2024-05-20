@@ -23,7 +23,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const truncatedDescription = truncateText(product.description, 100);
   console.log(product.image1);
   return (
-    <div className="flex flex-col border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out justify-center items-center text-center h-full">
+    <div className="flex flex-col bg-black border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out justify-center items-center text-center h-full">
       {isAdminView && (
         <div className="flex justify-between items-center p-4 bg-gray-100 border-b">
           <button
@@ -41,21 +41,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </p>
         </div>
       )}
-      <div className="flex-grow p-4 flex flex-col justify-between h-full">
+      <div className="flex-grow p-4 flex flex-col justify-between h-full text-white">
         <div className="flex-1">
           {product.image1 && (
-            <div className="image-container w-full h-48 relative mb-4">
+            <div className="image-container w-full h-48 relative mb-4 ">
               <Image
                 src={product.image1}
                 alt={product.name}
-                className="object-contain w-full h-full"
+                className="object-contain w-full h-full "
                 layout="fill"
               />
             </div>
           )}
           <div className="product-info h-32 overflow-hidden">
-            <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
-            <p className="text-gray-700 text-sm mb-4">{truncatedDescription}</p>
+            <h3 className="text-lg font-semibold mb-2 text-white hover:text-red-500">
+              {product.name}
+            </h3>
+            <p className=" text-sm mb-4 text-white">{truncatedDescription}</p>
           </div>
         </div>
         <div className="text-gray-900 font-bold">${product.price}</div>
