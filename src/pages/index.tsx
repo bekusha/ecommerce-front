@@ -58,7 +58,7 @@ const Home = () => {
           <button
             key={category.id}
             onClick={() => handleCategoryClick(category.id)}
-            className="m-2 bg-white border border-gray-200 px-4 py-2 rounded-full cursor-pointer hover:bg-gray-100 shadow transition duration-300 ease-in-out">
+            className="m-2 bg-white   px-4 py-2 rounded-full cursor-pointer hover:bg-blue-500 hover:text-white shadow transition duration-300 ease-in-out">
             {category.name}
           </button>
         ))}

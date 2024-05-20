@@ -13,6 +13,8 @@ export interface Product {
   image4?: string;
   image5?: string;
   quantity?: number;
+  viscosity: string;
+  volume: number;
 }
 
 export interface ProductContextType {
