@@ -62,23 +62,29 @@ const Header: React.FC = () => {
                 {user.role === Role.CONSUMER && (
                   <button
                     onClick={toggleCart}
-                    className="md:flex items-center hover:text-gray-400">
+                    className="underline-animation hover:text-red-500">
                     <ShoppingCartIcon className="h-6 w-6" />
                   </button>
                 )}
 
                 {user.role === Role.VENDOR && (
                   <Link href="/dashboard">
-                    <div className="hover:text-gray-400 ml-4">ადმინ პანელი</div>
+                    <div className="underline-animation hover:text-red-500">
+                      ადმინ პანელი
+                    </div>
                   </Link>
                 )}
-                <button onClick={logout} className="ml-4">
-                  Logout
+                <button
+                  onClick={logout}
+                  className="underline-animation hover:text-red-500">
+                  გამოსვლა
                 </button>
               </>
             ) : (
               <Link href="/auth">
-                <div className="hover:text-gray-400">შესვლა/რეგისტრაცია</div>
+                <div className="underline-animation hover:text-red-500">
+                  შესვლა/რეგისტრაცია
+                </div>
               </Link>
             )}
           </nav>

@@ -208,7 +208,7 @@ export const CartProvider = ({ children }: any) => {
       );
 
       const addedCartItem = response.data;
-
+      console.log(addedCartItem);
       setCart((currentCart) => {
         if (!currentCart) {
           return {

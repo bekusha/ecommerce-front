@@ -26,17 +26,21 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
   const [quantity, setQuantity] = useState(1);
   const { isLoggedIn } = useAuth()!;
 
+  useEffect(() => {
+    console.log(product);
+  }, []);
+
   const handleAddToCart = async () => {
     if (!isLoggedIn) {
-      alert("You need to log in to use this feature.");
+      alert("თქვენ უნდა შეხვიდეთ თქვენი ექაუნთით რათა გაიაროთ რეგისტრაცია");
       return; // Prevent further execution if not logged in
     }
     if (product.quantity === 0) {
-      alert("This product is out of stock.");
+      alert("სამწუხაროდ პროდუქტის მარაგი ამოწურულია");
       return; // Prevent further execution
     }
     await addToCart(product, quantity);
-    alert("Product has been successfully added to the cart");
+    alert("პროდუქტი წარმატებით დაემატა კალათში");
   };
 
   const handleQuantityChange = (change: number) => {
@@ -68,81 +72,78 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
   }
 
   return (
-    <div className="product-detail justify-center align-center text-center">
-      <Swiper
-        spaceBetween={50}
-        slidesPerView={1}
-        modules={[Navigation, Pagination]}
-        navigation
-        pagination={{ clickable: true }}>
-        {images.map((image, index) => (
-          <SwiperSlide key={index}>
-            {image && (
-              <div
-                className="mt-20 mb-20"
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  height: "500px",
-                }}>
-                <Image
-                  src={image}
-                  alt={`Image ${index + 1}`}
-                  fill
-                  style={{
-                    objectFit: "contain",
-                  }}
-                />
-              </div>
-            )}
-          </SwiperSlide>
-        ))}
-      </Swiper>
-
-      <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-10 md:text-center mt-10">
-        {product.name}
-      </h1>
-      <p className="text-gray-700 mb-4 text-lg md:text-xl lg:text-2xl text-center max-w-[30rem] mx-auto">
-        {product.description}
-      </p>
-      <p
-        className={`text-xl font-semibold mb-4 ${
-          product.quantity! > 0 ? "text-green-600" : "text-red-600"
-        }`}>
-        {product.quantity! > 0
-          ? `In Stock: ${product.quantity!} available`
-          : "Out of Stock"}
-      </p>
-
-      <p className="text-xl font-semibold mb-4">{product.price * quantity} $</p>
-      <p
-        onClick={handleVendorClick}
-        className="cursor-pointer text-blue-600 hover:text-blue-800 font-semibold underline mb-5">
-        Vendor: {vendorData}
-      </p>
-      <div className="flex gap-2 mb-4 md:flex-row items-center justify-center">
-        <button
-          disabled={product.quantity === 0}
-          onClick={handleAddToCart}
-          className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded min-w-[20] max-w-[10rem] text-lg md:text-xl ${
-            product.quantity === 0 && "opacity-50 cursor-not-allowed"
+    <div className="flex flex-col md:flex-row items-center justify-center text-center bg-black text-white p-4 gap-8">
+      <div className="w-full md:w-1/2 mt-[10rem] ">
+        <Swiper
+          spaceBetween={50}
+          slidesPerView={1}
+          modules={[Navigation, Pagination]}
+          navigation
+          pagination={{ clickable: true }}
+          className="swiper-container h-[500px]">
+          {images.map((image, index) => (
+            <SwiperSlide key={index}>
+              {image && (
+                <div className="relative w-full h-full">
+                  <Image
+                    className="rounded-sm"
+                    src={image}
+                    alt={`Image ${index + 1}`}
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </div>
+              )}
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+      <div className="w-full md:w-1/2">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 mt-4  ">
+          {product.name}
+        </h1>
+        <p className="text-md md:text-md lg:text-2xl mb-4 mx-auto max-w-[30rem]">
+          {product.description}
+        </p>
+        <p
+          className={`text-md font-semibold mb-4 ${
+            product.quantity! > 0 ? "text-blue-300" : "text-red-500"
           }`}>
-          Add To Cart
-        </button>
-
-        <div className="flex items-center">
+          {product.quantity! > 0
+            ? `მარაგშია: ${product.quantity}`
+            : "ამჟამად მარაგი ამოწურულია"}
+        </p>
+        <p className="text-md font-semibold mb-4">
+          ბოთლის მოცულობა:{" "}
+          <span className="font-semibold">{product.liter}</span> ლიტრი
+        </p>
+        <p className="text-md font-semibold mb-4">
+          {product.price * quantity} $
+        </p>
+        <div className="flex gap-2 mb-4 items-center justify-center">
           <button
-            className="text-gray-700 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded"
-            onClick={() => handleQuantityChange(-1)}>
-            -
+            disabled={product.quantity === 0}
+            onClick={handleAddToCart}
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded min-w-[20] max-w-[10rem] text-sm  disabled:opacity-50 disabled:cursor-not-allowed">
+            შეძენა
           </button>
-          <span className="mx-2">{quantity}</span>
-          <button
-            className="text-gray-700 bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded"
-            onClick={() => handleQuantityChange(1)}>
-            +
-          </button>
+          <div className="flex items-center">
+            <button
+              className="text-black bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded"
+              onClick={() => handleQuantityChange(-1)}>
+              -
+            </button>
+            <span className="mx-2 text-white">{quantity}</span>
+            <button
+              className="text-black bg-gray-200 hover:bg-gray-300 py-2 px-4 rounded"
+              onClick={() => handleQuantityChange(1)}>
+              +
+            </button>
+          </div>
         </div>
+        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded min-w-[20] max-w-[10rem] text-sm ">
+          სერვისის გამოძახება
+        </button>
       </div>
     </div>
   );

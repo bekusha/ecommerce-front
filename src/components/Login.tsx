@@ -44,37 +44,33 @@ export default function Login() {
       <form
         onSubmit={handleSubmit}
         className="p-6 bg-white rounded-lg shadow space-y-6 max-w-md w-full">
-        <h2 className="text-3xl font-bold text-center text-gray-900">Login</h2>
+        <h2 className="text-3xl font-bold text-center text-gray-900">შესვლა</h2>
         {error && <p className="text-red-500 text-center">{error}</p>}
         <div>
           <label
             htmlFor="username"
-            className="block text-sm font-medium text-gray-700">
-            Username
-          </label>
+            className="block text-sm font-medium text-gray-700"></label>
           <input
             id="username"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="Your username"
+            placeholder="მომხმარებლის სახელი"
             required
           />
         </div>
         <div>
           <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700">
-            Password
-          </label>
+            htmlFor="პაროლი"
+            className="block text-sm font-medium text-gray-700"></label>
           <input
             id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="Your password"
+            placeholder="პაროლი"
             required
           />
         </div>

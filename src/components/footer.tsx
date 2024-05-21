@@ -3,29 +3,23 @@ import Link from "next/link";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-black flex flex-col justify-center items-center text-center text-white p-4  bottom-0 w-full">
+    <footer className="bg-black flex flex-col justify-center items-center text-center text-white p-4 mt-20 bottom-0 w-full">
       <div className="container ">
         <div>
-          <ul>
+          <ul className="md:flex md:justify-center md:gap-10">
             <li>
               <Link href="/">
-                <div className="text-white hover:underline hover:text-red-500">
-                  Home
-                </div>
+                <div className="u hover:text-red-500">მთავარი გვერდი</div>
               </Link>
             </li>
             <li>
               <Link href="/contact">
-                <div className="text-white hover:underline hover:text-red-500">
-                  Contact Us
-                </div>
+                <div className=" hover:text-red-500">კონტაქტი</div>
               </Link>
             </li>
             <li>
               <Link href="/about">
-                <div className="text-white hover:underline hover:text-red-500">
-                  About
-                </div>
+                <div className=" hover:text-red-500">ჩვენს შესახებ</div>
               </Link>
             </li>
           </ul>
@@ -35,7 +29,7 @@ const Footer: React.FC = () => {
       <div className="text-center mt-8 border-t border-gray-700 pt-4">
         <p>
           © {new Date().getFullYear()}
-          {"Beka's"} Store, Inc. All rights reserved.
+          KROSS Georgia, Inc. All rights reserved.
         </p>
       </div>
     </footer>

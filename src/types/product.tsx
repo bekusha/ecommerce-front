@@ -14,7 +14,7 @@ export interface Product {
   image5?: string;
   quantity?: number;
   viscosity: string;
-  volume: number;
+  liter: number;
 }
 
 export interface ProductContextType {

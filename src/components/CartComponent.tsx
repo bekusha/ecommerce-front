@@ -87,17 +87,17 @@ const CartComponent = ({ onClose }: { onClose: () => void }) => {
           </div>
         ))
       ) : (
-        <div>Your cart is empty.</div>
+        <div>თქვენი კალათი ცარიელია</div>
       )}
       <div className="mt-4">
-        <strong>Total Items:</strong> {cart?.totalItems || 0}
+        <strong>ნივთების რაოდენობა:</strong> {cart?.totalItems || 0}
         <br />
-        <strong>Total Price:</strong> ${cart?.totalPrice || 0}
+        <strong>ჯამური ფასი:</strong> ${cart?.totalPrice || 0}
       </div>
       <button
         onClick={() => setIsCheckingOut(true)}
         className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition ease-in-out duration-150">
-        Purchase
+        შეძენა
       </button>
     </div>
   );

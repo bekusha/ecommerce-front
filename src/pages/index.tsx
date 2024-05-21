@@ -12,12 +12,15 @@ const Home = () => {
     useProducts();
   const [searchTerm, setSearchTerm] = useState("");
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
-  const handleCategoryClick = (categoryId: number) => {
+  const handleCategoryClick = (categoryId: any) => {
+    setSelectedCategoryId(categoryId); // Set the selected category ID
     fetchProductsByCategory(categoryId);
   };
   const handleResetFilters = () => {
-    fetchProducts(); // This assumes you have such a function to reset or fetch all products without filter
+    fetchProducts();
+    setSelectedCategoryId(null);
   };
 
   const handleSearchChange = (event: any) => {
@@ -32,7 +35,7 @@ const Home = () => {
 
   return (
     <div className={`container mx-auto px-5 ${inter.className} bg-black`}>
-      <header className="text-center mb-12 p-10 bg-black rounded-lg shadow-md">
+      <header className="text-center mb-12 p-10 bg-gray-900 rounded-lg  border border-red-500 ">
         <h1 className="text-4xl font-bold text-white">
           მოგესალმებათ <span className="text-red-500">KROSS Georgia</span>
         </h1>
@@ -42,10 +45,10 @@ const Home = () => {
         <div className="mt-8">
           <input
             type="text"
-            placeholder="Search products..."
+            placeholder="ძიება..."
             value={searchTerm}
             onChange={handleSearchChange}
-            className="px-4 py-2 border border-gray-300 rounded-full w-full shadow-inne text-white"
+            className="px-4 py-2  rounded-full w-full shadow-inne text-red-800"
           />
         </div>
       </header>
@@ -58,7 +61,11 @@ const Home = () => {
           <button
             key={category.id}
             onClick={() => handleCategoryClick(category.id)}
-            className="m-2 bg-white   px-4 py-2 rounded-full cursor-pointer hover:bg-blue-500 hover:text-white shadow transition duration-300 ease-in-out">
+            className={`m-2 px-4 py-2 rounded-full cursor-pointer shadow transition duration-300 ease-in-out ${
+              selectedCategoryId === category.id
+                ? "bg-blue-500 text-white"
+                : "bg-white hover:bg-blue-500 hover:text-white"
+            }`}>
             {category.name}
           </button>
         ))}

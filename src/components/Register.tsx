@@ -13,7 +13,7 @@ const Register = () => {
 
   const roleOptions = [
     { value: "CONSUMER", label: "Consumer" },
-    { value: "VENDOR", label: "Vendor" },
+    // { value: "VENDOR", label: "Vendor" },
   ];
 
   const { username, email, password, password2, role } = formData;
@@ -62,11 +62,11 @@ const Register = () => {
   return (
     <div className="flex items-center justify-center h-[80vh] bg-gray-100">
       <form onSubmit={onSubmit} className="p-6 bg-white rounded shadow-md">
-        <h2 className="text-lg font-semibold mb-4">Register</h2>
+        <h2 className="text-lg font-semibold mb-4">რეგისტრაცია</h2>
         <div className="mb-4">
           <input
             type="text"
-            placeholder="Username"
+            placeholder="მომხმარებელი"
             name="username"
             value={username}
             onChange={onChange}
@@ -77,7 +77,7 @@ const Register = () => {
         <div className="mb-4">
           <input
             type="email"
-            placeholder="Email"
+            placeholder="მეილი"
             name="email"
             value={email}
             onChange={onChange}
@@ -88,7 +88,7 @@ const Register = () => {
         <div className="mb-4">
           <input
             type="password"
-            placeholder="Password"
+            placeholder="პაროლი"
             name="password"
             value={password}
             onChange={onChange}
@@ -99,7 +99,7 @@ const Register = () => {
         <div className="mb-4">
           <input
             type="password"
-            placeholder="Confirm Password"
+            placeholder="გაიმერორეთ პაროლი"
             name="password2"
             value={password2}
             onChange={onChange}
@@ -113,8 +113,8 @@ const Register = () => {
             value={role}
             onChange={onChange}
             className="w-full px-3 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:border-indigo-500">
-            <option value="CONSUMER">Consumer</option>
-            <option value="VENDOR">Vendor</option>
+            <option value="CONSUMER">მომხმარებელი</option>
+            {/* <option value="VENDOR">Vendor</option> */}
           </select>
         </div>
         <button
