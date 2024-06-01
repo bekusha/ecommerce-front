@@ -11,6 +11,7 @@ import { useCart } from "@/context/cartContext";
 import { Product } from "@/types/product";
 import { useRouter } from "next/router";
 import { useAuth } from "@/context/authContext";
+import ServiceRequestModal from "@/components/ServiceRequestModal";
 
 interface ProductDetailProps {
   product: Product;
@@ -25,6 +26,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const { isLoggedIn } = useAuth()!;
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     console.log(product);
@@ -59,6 +61,30 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
     }
   };
 
+  const handleServiceRequestClick = () => {
+    setIsModalOpen(true);
+    console.log(product);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleModalSubmit = async (formData: any) => {
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}oils/oil-delivery-requests/`,
+        formData
+      );
+      alert(
+        "პროდუქტი დაემატა წარმატებით. ჩვენი ოპერატორი მალე დაგიკავშირდებათ"
+      );
+      setIsModalOpen(false);
+    } catch (error) {
+      alert("დაფიქსირდა შეცდომა პროდუქტის დამატების დროს");
+    }
+  };
+
   const images = [
     product.image1,
     product.image2,
@@ -73,7 +99,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-center text-center bg-black text-white p-4 gap-8">
-      <div className="w-full md:w-1/2 mt-[10rem] ">
+      <div className="w-full md:w-1/2 mt-[10rem] z-0">
         <Swiper
           spaceBetween={50}
           slidesPerView={1}
@@ -99,7 +125,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
         </Swiper>
       </div>
       <div className="w-full md:w-1/2">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 mt-4  ">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 mt-4">
           {product.name}
         </h1>
         <p className="text-md md:text-md lg:text-2xl mb-4 mx-auto max-w-[30rem]">
@@ -118,14 +144,14 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
           <span className="font-semibold">{product.liter}</span> ლიტრი
         </p>
         <p className="text-md font-semibold mb-4">
-          {product.price * quantity} $
+          ფასი: {product.price * quantity} GEL
         </p>
         <div className="flex gap-2 mb-4 items-center justify-center">
           <button
             disabled={product.quantity === 0}
             onClick={handleAddToCart}
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded min-w-[20] max-w-[10rem] text-sm  disabled:opacity-50 disabled:cursor-not-allowed">
-            შეძენა
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded min-w-[20] max-w-[10rem] text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+            კალათში დამატება
           </button>
           <div className="flex items-center">
             <button
@@ -141,10 +167,21 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
             </button>
           </div>
         </div>
-        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded min-w-[20] max-w-[10rem] text-sm ">
-          სერვისის გამოძახება
+        <button
+          onClick={handleServiceRequestClick}
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded min-w-[20] max-w-[10rem] text-sm">
+          ზეთის შეცვლა ადგილზე გამოძახებით
         </button>
       </div>
+
+      {isModalOpen && (
+        <ServiceRequestModal
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          onSubmit={handleModalSubmit}
+          product={product}
+        />
+      )}
     </div>
   );
 };

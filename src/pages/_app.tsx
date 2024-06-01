@@ -5,6 +5,7 @@ import { ProductProvider } from "@/context/productContext";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { CartProvider } from "@/context/cartContext";
+// import { OilProvider } from "@/context/oilContext";
 import React from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -12,6 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <AuthProvider>
       <ProductProvider>
         <CartProvider>
+          {/* <OilProvider> */}
           <div className="flex flex-col h-screen bg-black">
             {" "}
             {/* Ensures the container takes the full viewport height */}
@@ -23,6 +25,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </main>
             <Footer />
           </div>
+          {/* </OilProvider> */}
         </CartProvider>
       </ProductProvider>
     </AuthProvider>
