@@ -1,30 +1,30 @@
-name: Deploy on server
-on:
-  push:
-    branches:
-      - master
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: install npm dependencies
-        run: npm ci
-      - name: Set ssh key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-      - name: Deploy to Server
-        if: ${{ success() }}
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << EOF
-            cd ecommerce-front
-            git pull origin master
-            npm ci
-            npm run build
-            pm2 restart ecommerce-front
-          EOF
+# name: Deploy on server
+# on:
+#   push:
+#     branches:
+#       - master
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: 18
+#       - name: install npm dependencies
+#         run: npm ci
+#       - name: Set ssh key
+#         run: |
+#           mkdir -p ~/.ssh
+#           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+#           chmod 600 ~/.ssh/id_rsa
+#       - name: Deploy to Server
+#         if: ${{ success() }}
+#         run: |
+#           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << EOF
+#             cd ecommerce-front
+#             git pull origin master
+#             npm ci
+#             npm run build
+#             pm2 restart ecommerce-front
+#           EOF
